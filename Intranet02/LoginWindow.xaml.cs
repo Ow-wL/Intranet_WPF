@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Intranet02
 {
     /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// LoginWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginWindow : Window
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
 
@@ -36,6 +36,15 @@ namespace Intranet02
             {
                 UpdatePasswordPlaceholder();
             };
+
+            this.PreviewKeyDown += LoginWindow_PreviewKeyDown;
+        }
+        private void LoginWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Loginbtn_Click(Loginbtn, new RoutedEventArgs());
+            }
         }
         private void AddPlaceholder(Control control, string placeholder)
         {
@@ -100,13 +109,17 @@ namespace Intranet02
             else
             {
                 MessageBox.Show("Invalid Username or Password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                PWtext.Clear();
+                PWtext.Focus();
             }
         }
 
         private void Signupbtn_Click(object sender, RoutedEventArgs e)
         {
-            // 회원가입 버튼 클릭 시 동작
-            MessageBox.Show("회원가입 기능은 아직 구현되지 않았습니다.", "정보", MessageBoxButton.OK, MessageBoxImage.Information);
+            // MessageBox.Show("회원가입으로 이동합니다.", "정보", MessageBoxButton.OK, MessageBoxImage.Information);
+            SignUpWindow signUpWindow = new SignUpWindow();
+            signUpWindow.Show();
+            this.Close();
         }
     }
 }
