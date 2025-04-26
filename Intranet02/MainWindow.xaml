@@ -5,31 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Intranet02"
         mc:Ignorable="d"
-        Title="MainWindow" Height="617" Width="385">
+        Title="SHIBA STAFF" Height="617" Width="385">
 
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+    <Grid x:Name="배경" Background="#09090b">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="471">
 
-            <Image HorizontalAlignment="Center" Height="176" Width="174" 
+            <Image x:Name="StarImage" HorizontalAlignment="Center" Height="176" Width="174" 
                    Margin="0,0,0,30" 
                    Source="/9004759_star_favorite_award_like_icon.png" 
                    RenderTransformOrigin="0.434,0.515"/>
 
-            <TextBlock Text="Login" 
+            <TextBlock x:Name="LoginMessage" Text="SHIBA STAFF" 
                        FontSize="24" FontWeight="Bold" 
-                       HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                       HorizontalAlignment="Center" Margin="0,0,0,20" TextAlignment="Center" Foreground="#FFFCD53F"/>
 
-            <TextBox x:Name="UsernameTextBox" 
-                     Height="30" Margin="0,0,0,10" 
-                     Width="250"/>
+            <TextBox x:Name="IDtext" 
+                 Height="30" Margin="0,0,0,10" 
+                 Width="250"/>  
 
-            <PasswordBox x:Name="PasswordBox" 
-                         Height="30" Margin="0,0,0,20" 
-                         Width="250"/>
+            <PasswordBox x:Name="PWtext" 
+                 Height="30" Margin="0,0,0,20" 
+                 Width="250"/>
 
-            <Button Content="Login" 
-                    Height="35" Width="250" 
-                    Click="LoginButton_Click"/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="Loginbtn" Content="로그인" 
+                    Height="35" Width="120" 
+                    Click="Loginbtn_Click" 
+                    Grid.Column="0" Margin="5,0,5,0"/>
+
+                <Button x:Name="Signupbtn" Content="회원가입" 
+                    Height="35" Width="120" 
+                    Click="Signupbtn_Click" 
+                    Grid.Column="1" Margin="5,0,5,0"/>
+            </Grid>
 
         </StackPanel>
     </Grid>
