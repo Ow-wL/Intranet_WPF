@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +22,7 @@ namespace Intranet02
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private readonly HttpClient client = new HttpClient();
         public LoginWindow()
         {
             InitializeComponent();
@@ -95,23 +98,68 @@ namespace Intranet02
             }
         }
 
-        private void Loginbtn_Click(object sender, RoutedEventArgs e)
+        private async void Loginbtn_Click(object sender, RoutedEventArgs e)
         {
             string username = IDtext.Text;
             string password = PWtext.Password;
 
-            // 간단한 로그인 체크 (예시)
-            if (username == "admin" && password == "1234")
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Login Successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                // TODO: 메인 윈도우 열기 또는 다른 작업
+                MessageBox.Show("아이디와 비밀번호를 모두 입력해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // 서버에 로그인 요청
+            var response = await LoginUser(username, password);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                try
+                {
+                    var loginResult = System.Text.Json.JsonSerializer.Deserialize<LoginResponse>(jsonResponse);
+                    if (loginResult?.status == "success")
+                    {
+                        MessageBox.Show($"로그인 성공! 사용자 {loginResult.username}", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
+                        // TODO: 로그인 성공 후 처리 (메인 윈도우 열기 등)
+                    }
+                    else
+                    {
+                        MessageBox.Show($"로그인 실패: {loginResult?.message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (System.Text.Json.JsonException ex)
+                {
+                    MessageBox.Show($"로그인 응답 처리 오류: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
-                MessageBox.Show("Invalid Username or Password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                PWtext.Clear();
-                PWtext.Focus();
+                string errorMessage = response.ReasonPhrase;
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    try
+                    {
+                        var errorResult = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(errorContent);
+                        if (errorResult?.message != null)
+                        {
+                            errorMessage = errorResult.message;
+                        }
+                    }
+                    catch (System.Text.Json.JsonException)
+                    {
+                        // JSON 파싱 실패 시 기본 오류 메시지 사용
+                    }
+                }
+                MessageBox.Show($"로그인 실패: {errorMessage}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private async Task<HttpResponseMessage> LoginUser(string username, string password)
+        {
+            var user = new { username = username, password = password };
+            return await client.PostAsJsonAsync("http://localhost:3000/login", user);
         }
 
         private void Signupbtn_Click(object sender, RoutedEventArgs e)
@@ -121,5 +169,18 @@ namespace Intranet02
             signUpWindow.Show();
             this.Close();
         }
+    }
+    public class LoginResponse
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public int userId { get; set; }
+        public string username { get; set; }
+    }
+
+    public class ErrorResponse
+    {
+        public string status { get; set; }
+        public string message { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +18,7 @@ namespace Intranet02
 {
     public partial class SignUpWindow : Window
     {
+        private static readonly HttpClient client = new HttpClient();
         public SignUpWindow()
         {
             InitializeComponent();
@@ -114,17 +117,20 @@ namespace Intranet02
             }
         }
 
-        private void Registerbtn_Click(object sender, RoutedEventArgs e)
+
+        private async void Registerbtn_Click(object sender, RoutedEventArgs e)
         {
-            // 회원가입 버튼 클릭 시 처리 로직
-            string id = IDtext.Text;
+            // 회원가입 버튼 클릭 시 처리 로직
+            string id = IDtext.Text;
             string password = PWtext.Password;
             string passwordCheck = PWChecktext.Password;
+
             if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(passwordCheck))
             {
                 MessageBox.Show("모든 필드를 입력해주세요.");
                 return;
             }
+
             if (password != passwordCheck)
             {
                 MessageBox.Show("비밀번호가 일치하지 않습니다.");
@@ -133,8 +139,59 @@ namespace Intranet02
                 PWtext.Focus();
                 return;
             }
-            MessageBox.Show("회원가입 시스템 구현 예정 / DB 형식", "정보", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // 서버에 회원가입 요청
+            var response = await RegisterUser(id, password);
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("회원가입 성공!", "정보", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                string errorMessage = response.ReasonPhrase;
+                if (response.StatusCode == System.Net.HttpStatusCode.Conflict) // ID 중복 에러 (409) 처리
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    try
+                    {
+                        var errorResult = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(errorContent);
+                        if (errorResult?.message != null)
+                        {
+                            errorMessage = errorResult.message;
+                        }
+                    }
+                    catch (System.Text.Json.JsonException)
+                    {
+                        // JSON 파싱 실패 시 기본 오류 메시지 사용
+                    }
+                }
+                else // 다른 오류 발생 시
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    try
+                    {
+                        var errorResult = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(errorContent);
+                        if (errorResult?.message != null)
+                        {
+                            errorMessage = errorResult.message;
+                        }
+                    }
+                    catch (System.Text.Json.JsonException)
+                    {
+                        // JSON 파싱 실패 시 기본 오류 메시지 사용
+                    }
+                }
+                MessageBox.Show($"회원가입 실패: {errorMessage}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
+        private async Task<HttpResponseMessage> RegisterUser(string id, string password)
+        {
+            var user = new { username = id, password = password };
+            return await client.PostAsJsonAsync("http://localhost:3000/register", user);
+        }
+
+
 
         private void returnbtn_Click(object sender, RoutedEventArgs e)
         {
