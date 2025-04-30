@@ -60,14 +60,21 @@ app.post('/register', (req, res) => {
 
         if (row) {
             // 이미 존재하는 username인 경우
-            return res.status(409).json({ status: 'error', message: '사용중인 ID 입니다.' }); // HTTP 상태 코드 409 Conflict
+            return res.status(409).json({ status: 'error', message: '이미 사용중인 ID 입니다.' });
         } else {
-            // 존재하지 않는 username이므로 회원가입 진행
-            db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], function(err) {
+            // 존재하지 않는 username이므로 새로운 ID 생성 및 회원가입 진행
+            db.get('SELECT MAX(id) AS lastId FROM users', (err, lastIdRow) => { // lastId 조회
                 if (err) {
                     return res.status(500).json({ status: 'error', message: err.message });
                 }
-                res.status(200).json({ status: 'success', id: this.lastID });
+                const newId = (lastIdRow?.lastId || 0) + 1; // 새로운 ID 생성
+
+                db.run('INSERT INTO users (id, username, password) VALUES (?, ?, ?)', [newId, username, password], function(err) {
+                    if (err) {
+                        return res.status(500).json({ status: 'error', message: err.message });
+                    }
+                    res.status(200).json({ status: 'success', id: this.lastID });
+                });
             });
         }
     });

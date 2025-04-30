@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace Intranet02
 {
-    /// <summary>
-    /// LoginWindow.xaml에 대한 상호 작용 논리
-    /// </summary>
     public partial class LoginWindow : Window
     {
         private readonly HttpClient client = new HttpClient();
@@ -121,7 +118,9 @@ namespace Intranet02
                     if (loginResult?.status == "success")
                     {
                         MessageBox.Show($"로그인 성공! 사용자 {loginResult.username}", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
-                        // TODO: 로그인 성공 후 처리 (메인 윈도우 열기 등)
+                        Main main = new Main();
+                        main.Show();
+                        this.Close();
                     }
                     else
                     {
