@@ -116,11 +116,8 @@ namespace Intranet02
                 }
             }
         }
-
-
         private async void Registerbtn_Click(object sender, RoutedEventArgs e)
         {
-            // 회원가입 버튼 클릭 시 처리 로직
             string id = IDtext.Text;
             string password = PWtext.Password;
             string passwordCheck = PWChecktext.Password;
@@ -165,7 +162,7 @@ namespace Intranet02
                         // JSON 파싱 실패 시 기본 오류 메시지 사용
                     }
                 }
-                else // 다른 오류 발생 시
+                else 
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
                     try
@@ -190,8 +187,6 @@ namespace Intranet02
             var user = new { username = id, password = password };
             return await client.PostAsJsonAsync("http://localhost:3000/register", user);
         }
-
-
 
         private void returnbtn_Click(object sender, RoutedEventArgs e)
         {
