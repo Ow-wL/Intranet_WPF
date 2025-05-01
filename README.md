@@ -35,14 +35,32 @@
     + { "Personal Setting" } = ("Change NickName", "Change Password", "Change Profile")
     + { "Admin Menu" } = ("Post Modify", "Permission Modify", "User Modify")
 
-## Day Work
-
-+ 25-04-27 / 로그인 폼 & 회원가입 폼 디자인 
-+ 25-04-30 / 로그인 & 회원가입 서버 DB 시스템 구현, 메인 폼 디자인
-+ 25-05-01 / 회원가입 시 별명 설정, 대시보드 & 게시판 xaml 디자인
-
-
 ## 설치한 NuGet
 
 + MahApps.Metro 
 + ControlzEx (위 설치 시 같이 설치됨)
+
+## Day Work
+
+<details>
+<summary> 25-04-27 ( 1일차 ) </summary>
+로그인 폼 디자인 <br>
+회원가입 폼 디자인<br>
+<br>
+</details>
+
+<details>
+<summary>25-04-30 ( 2일차 ) </summary>
+ 로그인 & 회원가입 서버 DB 시스템 구현 <br>
+ 메인 폼 디자인 <br>
+<br>
+</details>
+
+<details>
+<summary>25-05-01 ( 3일차 ) </summary>
+회원가입 시 별명 설정<br>
+대시보드 & 게시판 xaml 디자인<br>
+메인폼 별명 추가(이모지 출력)<br>
+<br>
+
+</details>

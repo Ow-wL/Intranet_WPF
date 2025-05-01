@@ -63,6 +63,14 @@
             <Button x:Name="btnCS" Content="고객센터" Margin="10"/>
             <Button x:Name="btnSetting" Content="설정" Margin="10"/>
             <Button x:Name="btnAdmin" Content="관리메뉴" Margin="10"/>
+
+            <Label x:Name="lblNickname" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                FontSize="22" Foreground="#FFE0E0E0" Margin="0,190,0,0">
+                <TextBlock>
+                    <Run Text="닉네임: " FontFamily="Pretendard ExtraBold"/>
+                    <Run Text="😊" FontFamily="Segoe UI Emoji"/> 
+                </TextBlock>
+            </Label>
         </StackPanel>
 
         <!-- 메인 콘텐츠 -->
