@@ -20,7 +20,6 @@ namespace Intranet02
     /// </summary>
     public partial class Main : Window
     {
-        private DispatcherTimer _timer; 
         public Main()
         {
             InitializeComponent();

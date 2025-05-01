@@ -24,12 +24,18 @@ namespace Intranet02
             InitializeComponent();
 
             AddPlaceholder(IDtext, "아이디");
+            AddPlaceholder(NameText, "별명");
             AddPlaceholder(PWtext, "비밀번호");
             AddPlaceholder(PWChecktext, "비밀번호 확인");
 
             IDtext.TextChanged += (s, e) =>
             {
                 UpdateIDPlaceholder();
+            };
+
+            NameText.TextChanged += (s, e) =>
+            {
+                UpdateNamePlaceholder();
             };
 
             PWtext.PasswordChanged += (s, e) =>
@@ -80,6 +86,24 @@ namespace Intranet02
                 }
             }
         }
+        private void UpdateNamePlaceholder()
+        {
+            var adornerLayer = AdornerLayer.GetAdornerLayer(NameText);
+            if (adornerLayer != null)
+            {
+                var adorner = adornerLayer.GetAdorners(NameText)?.FirstOrDefault();
+                if (adorner != null)
+                {
+                    adornerLayer.Remove(adorner);
+                }
+
+                if (string.IsNullOrEmpty(NameText.Text))
+                {
+                    var placeholderAdorner = new PlaceholderAdorner(NameText, "별명");
+                    adornerLayer.Add(placeholderAdorner);
+                }
+            }
+        }
         private void UpdatePasswordPlaceholder()
         {
             var adornerLayer = AdornerLayer.GetAdornerLayer(PWtext);
@@ -118,35 +142,54 @@ namespace Intranet02
         }
         private async void Registerbtn_Click(object sender, RoutedEventArgs e)
         {
-            string id = IDtext.Text;
+            string id = IDtext.Text; // ID 필드는 그대로 사용한다고 가정
             string password = PWtext.Password;
             string passwordCheck = PWChecktext.Password;
+            string nickname = NameText.Text; // 별명 입력 필드 값 가져오기
 
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(passwordCheck))
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(passwordCheck) || string.IsNullOrEmpty(nickname))
             {
-                MessageBox.Show("모든 필드를 입력해주세요.");
+                MessageBox.Show("모든 필드를 입력해주세요.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (password != passwordCheck)
             {
-                MessageBox.Show("비밀번호가 일치하지 않습니다.");
+                MessageBox.Show("비밀번호가 일치하지 않습니다.", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
                 PWtext.Clear();
                 PWChecktext.Clear();
                 PWtext.Focus();
                 return;
             }
 
-            // 서버에 회원가입 요청
-            var response = await RegisterUser(id, password);
+            var response = await RegisterUser(id, password, nickname);
             if (response.IsSuccessStatusCode)
             {
-                MessageBox.Show("회원가입 성공!", "정보", MessageBoxButton.OK, MessageBoxImage.Information);
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                try
+                {
+                    var registerResult = System.Text.Json.JsonSerializer.Deserialize<RegisterResponse>(jsonResponse);
+                    if (registerResult?.status == "success")
+                    {
+                        MessageBox.Show($"회원가입 성공! 사용자 {registerResult.nickname}!", "정보", MessageBoxButton.OK, MessageBoxImage.Information);
+                        LoginWindow LoginWindow = new LoginWindow();
+                        LoginWindow.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"회원가입 실패: {registerResult?.message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (System.Text.Json.JsonException ex)
+                {
+                    MessageBox.Show($"회원가입 응답 처리 오류: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
                 string errorMessage = response.ReasonPhrase;
-                if (response.StatusCode == System.Net.HttpStatusCode.Conflict) // ID 중복 에러 (409) 처리
+                if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
                     try
@@ -162,7 +205,7 @@ namespace Intranet02
                         // JSON 파싱 실패 시 기본 오류 메시지 사용
                     }
                 }
-                else 
+                else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
                     try
@@ -182,10 +225,18 @@ namespace Intranet02
             }
         }
 
-        private async Task<HttpResponseMessage> RegisterUser(string id, string password)
+        private async Task<HttpResponseMessage> RegisterUser(string id, string password, string name)
         {
-            var user = new { username = id, password = password };
+            var user = new { username = id, password = password, nickname = name };
             return await client.PostAsJsonAsync("http://localhost:3000/register", user);
+        }
+
+        public class RegisterResponse
+        {
+            public string status { get; set; }
+            public string message { get; set; }
+            public int id { get; set; }
+            public string nickname { get; set; } 
         }
 
         private void returnbtn_Click(object sender, RoutedEventArgs e)

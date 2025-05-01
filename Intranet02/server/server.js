@@ -16,21 +16,22 @@ const db = new sqlite3.Database('USER.DB', (err) => {
     console.log('Connected to the USER.DB database for login.');
 });
 
-// users 테이블이 없으면 생성 (기존 코드 유지)
+// users 테이블이 없으면 생성 
 db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT,
-    password TEXT
+    username TEXT UNIQUE,
+    password TEXT,
+    nickname TEXT UNIQUE
 )`);
 
-// 로그인 엔드포인트 추가
+// 로그인 엔드포인트
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
         return res.status(400).json({ status: 'error', message: '아이디와 패스워드 모두 입력해주세요.' });
     }
 
-    db.get('SELECT id, username, password FROM users WHERE username = ?', [username], (err, row) => {
+    db.get('SELECT id, username, password, nickname FROM users WHERE username = ?', [username], (err, row) => {
         if (err) {
             return res.status(500).json({ status: 'error', message: err.message });
         }
@@ -39,45 +40,55 @@ app.post('/login', (req, res) => {
             return res.status(401).json({ status: 'error', message: 'ID를 확인해주세요.' });
         }
 
-        // 비밀번호 비교 (현재는 평문 비교, 실제 서비스에서는 암호화하여 비교해야 함)
         if (row.password === password) {
-            res.status(200).json({ status: 'success', message: 'Login successful', userId: row.id, username: row.username });
+            // 로그인 성공 시 userId, username, nickname을 함께 응답
+            res.status(200).json({ status: 'success', message: 'Login successful', userId: row.id, username: row.username, nickname: row.nickname });
         } else {
-            res.status(401).json({ status: 'error', message: '패스워드를 확인해주세요.' });
+            return res.status(401).json({ status: 'error', message: '패스워드를 확인해주세요.' });
         }
     });
 });
 
 // 회원가입 엔드포인트
 app.post('/register', (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-        return res.status(400).json({ status: 'error', message: 'Username and password are required' });
+    const { username, password, nickname } = req.body;
+    if (!username || !password || !nickname) {
+        return res.status(400).json({ status: 'error', message: 'Username, Password, and Nickname are required' });
     }
 
-    // 데이터베이스에서 동일한 username이 있는지 확인
-    db.get('SELECT username FROM users WHERE username = ?', [username], (err, row) => {
+    // username 중복 확인
+    db.get('SELECT username FROM users WHERE username = ?', [username], (err, usernameRow) => {
         if (err) {
             return res.status(500).json({ status: 'error', message: err.message });
         }
 
-        if (row) {
-            // 이미 존재하는 username인 경우
+        if (usernameRow) {
             return res.status(409).json({ status: 'error', message: '이미 사용중인 ID 입니다.' });
         } else {
-            // 존재하지 않는 username이므로 새로운 ID 생성 및 회원가입 진행
-            db.get('SELECT MAX(id) AS lastId FROM users', (err, lastIdRow) => { // lastId 조회
+            // nickname 중복 확인
+            db.get('SELECT nickname FROM users WHERE nickname = ?', [nickname], (err, nicknameRow) => {
                 if (err) {
                     return res.status(500).json({ status: 'error', message: err.message });
                 }
-                const newId = (lastIdRow?.lastId || 0) + 1; // 새로운 ID 생성
 
-                db.run('INSERT INTO users (id, username, password) VALUES (?, ?, ?)', [newId, username, password], function(err) {
-                    if (err) {
-                        return res.status(500).json({ status: 'error', message: err.message });
-                    }
-                    res.status(200).json({ status: 'success', id: this.lastID });
-                });
+                if (nicknameRow) {
+                    return res.status(409).json({ status: 'error', message: '이미 사용중인 별명 입니다.' });
+                } else {
+                    // username과 nickname 모두 중복되지 않으면 회원가입 진행
+                    db.get('SELECT MAX(id) AS lastId FROM users', (err, lastIdRow) => {
+                        if (err) {
+                            return res.status(500).json({ status: 'error', message: err.message });
+                        }
+                        const newId = (lastIdRow?.lastId || 0) + 1;
+
+                        db.run('INSERT INTO users (id, username, password, nickname) VALUES (?, ?, ?, ?)', [newId, username, password, nickname], function(err) {
+                            if (err) {
+                                return res.status(500).json({ status: 'error', message: err.message });
+                            }
+                            res.status(200).json({ status: 'success', id: this.lastID, nickname: nickname });
+                        });
+                    });
+                }
             });
         }
     });

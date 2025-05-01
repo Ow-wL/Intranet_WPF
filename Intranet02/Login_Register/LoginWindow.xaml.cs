@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Intranet02.SignUpWindow;
 
 namespace Intranet02
 {
@@ -117,7 +118,7 @@ namespace Intranet02
                     var loginResult = System.Text.Json.JsonSerializer.Deserialize<LoginResponse>(jsonResponse);
                     if (loginResult?.status == "success")
                     {
-                        MessageBox.Show($"로그인 성공! 사용자 {loginResult.username}", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show($"로그인 성공! 사용자 {loginResult.nickname}", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
                         Main main = new Main();
                         main.Show();
                         this.Close();
@@ -175,6 +176,7 @@ namespace Intranet02
         public string message { get; set; }
         public int userId { get; set; }
         public string username { get; set; }
+        public string nickname { get; set; }
     }
 
     public class ErrorResponse
