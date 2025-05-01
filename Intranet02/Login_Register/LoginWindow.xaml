@@ -28,7 +28,7 @@
                  Width="250"/>
 
             <Button x:Name="Loginbtn" Content="로그인" 
-                Height="35" 
+                Height="39" 
                 Click="Loginbtn_Click" 
                 Grid.Column="0" Grid.ColumnSpan="2" 
                 FontSize="22" Width="250"
@@ -37,7 +37,7 @@
             <Button x:Name="Signupbtn" Content="계정이 없으신가요? 회원가입" 
                 Foreground="#E5A3A8A9" 
                 BorderBrush="Transparent" 
-                Click="Signupbtn_Click" Background="Transparent" Height="30" FontFamily="Pretendard Light">
+                Click="Signupbtn_Click" Background="Transparent" Height="30" FontFamily="Pretendard Light" FontSize="12">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
