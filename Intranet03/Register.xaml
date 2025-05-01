@@ -1,59 +1,58 @@
-﻿<Window x:Class="Intranet02.SignUpWindow"
+﻿<Window x:Class="Intranet03.Register"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Intranet02"
+        xmlns:local="clr-namespace:Intranet03"
         mc:Ignorable="d"
         Title="SHIBA STAFF" Height="617" Width="385"
         WindowStartupLocation="CenterScreen">
-
     <Grid x:Name="배경" Background="#09090b">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="538">
 
             <Image x:Name="StarImage" HorizontalAlignment="Center" Height="176" Width="174" 
-                   Margin="0,0,0,30" 
-                   Source="/Login_Register/9004759_star_favorite_award_like_icon.png" 
-                   RenderTransformOrigin="0.434,0.515"/>
+               Margin="0,0,0,30" 
+               Source="/9004759_star_favorite_award_like_icon.png" 
+               RenderTransformOrigin="0.434,0.515"/>
 
             <TextBlock x:Name="LoginMessage" Text="SHIBA STAFF REGISTER" 
-                       FontSize="28" 
-                       HorizontalAlignment="Center" Margin="0,0,0,20" TextAlignment="Center" Foreground="#FFFCD53F" FontFamily="Pretendard ExtraBold"/>
+                   FontSize="28" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20" TextAlignment="Center" Foreground="#FFFCD53F" FontFamily="Pretendard ExtraBold"/>
 
             <TextBox x:Name="IDtext" 
-                 Height="30" Margin="0,0,0,10" 
-                 Width="250"/>
+             Height="30" Margin="0,0,0,10" 
+             Width="250"/>
             <TextBox x:Name="NameText" 
-                Height="30" Margin="0,0,0,20" 
-                Width="250"/>
+            Height="30" Margin="0,0,0,20" 
+            Width="250"/>
 
             <PasswordBox x:Name="PWtext" 
-                 Height="30" Margin="0,0,0,10" 
-                 Width="250"/>
+             Height="30" Margin="0,0,0,10" 
+             Width="250"/>
 
             <PasswordBox x:Name="PWChecktext" 
-                 Height="30" Margin="0,0,0,20" 
-                 Width="250"/>
+             Height="30" Margin="0,0,0,20" 
+             Width="250"/>
 
             <Button x:Name="Registerbtn" Content="회원가입" 
-                Height="39" 
-                Grid.Column="0" Grid.ColumnSpan="2" 
-                FontSize="22" Width="250"
-                Click="Registerbtn_Click" 
-                VerticalContentAlignment="Center" 
-                HorizontalContentAlignment="Center" FontWeight="Bold" FontFamily="Pretendard SemiBold"/>
+            Height="39" 
+            Grid.Column="0" Grid.ColumnSpan="2" 
+            FontSize="22" Width="250"
+            Click="Registerbtn_Click" 
+            VerticalContentAlignment="Center" 
+            HorizontalContentAlignment="Center" FontWeight="Bold" FontFamily="Pretendard SemiBold"/>
             <Button x:Name="returnbtn" Content="로그인으로 돌아가기" 
-                Foreground="#E5A3A8A9" 
-                BorderBrush="Transparent" 
-                Click="returnbtn_Click" Background="Transparent" Height="30" FontFamily="Pretendard Light" FontSize="12">
+            Foreground="#E5A3A8A9" 
+            BorderBrush="Transparent" 
+            Click="returnbtn_Click" Background="Transparent" Height="30" FontFamily="Pretendard Light" FontSize="12">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
                             <TextBlock x:Name="TextBlockContent" 
-                           Text="{TemplateBinding Content}" 
-                           HorizontalAlignment="Center" 
-                           VerticalAlignment="Center" 
-                           Foreground="{TemplateBinding Foreground}"/>
+                       Text="{TemplateBinding Content}" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Foreground="{TemplateBinding Foreground}"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">

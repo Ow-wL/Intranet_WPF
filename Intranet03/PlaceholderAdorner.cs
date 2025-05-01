@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace Intranet02
+namespace Intranet03
 {
     public class PlaceholderAdorner : Adorner
     {

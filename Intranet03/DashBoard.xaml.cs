@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace Intranet02
+namespace Intranet03
 {
     /// <summary>
     /// DashBoard.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class DashBoard : UserControl
     {
-        private DispatcherTimer _timer;
+        private  DispatcherTimer _timer;
         public DashBoard()
         {
             InitializeComponent();

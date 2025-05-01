@@ -1,11 +1,12 @@
-﻿<UserControl x:Class="Intranet02.DashBoard"
+﻿<UserControl x:Class="Intranet03.DashBoard"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Intranet02"
+        xmlns:local="clr-namespace:Intranet03"
         mc:Ignorable="d"
         Height="734.04" Width="978" Background="#FF09090B">
+    
     <Grid x:Name="GridDashBoard">
         <Label x:Name="lblMain" Grid.Column="1" Content="SHIBA STAFF" HorizontalAlignment="Left" Margin="23,10,0,0" VerticalAlignment="Top" Height="56" Width="355" Background="{x:Null}" FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA"/>
         <TextBlock x:Name="lblTimer" Grid.Column="1" HorizontalAlignment="Left" Height="47" Margin="33,71,0,0" TextWrapping="Wrap" Text="2025.04.30 22:09" VerticalAlignment="Top" Width="473" FontFamily="Pretendard Bold" FontSize="36" Foreground="#FFFAFAFA"/>

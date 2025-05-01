@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,21 +7,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Threading;
+using Emoji.Wpf;
 
-
-namespace Intranet02
+namespace Intranet03
 {
-    /// <summary>
-    /// Main.xaml에 대한 상호 작용 논리
-    /// </summary>
     public partial class Main : Window
     {
         public int UserId { get; private set; }
         public string Username { get; private set; }
         public string Nickname { get; private set; }
-        private Label lblname { get; set; }
+        private Emoji.Wpf.TextBlock lblname { get; set; }
 
         public Main(int userId, string username, string nickname)
         {
@@ -34,78 +27,97 @@ namespace Intranet02
             this.UserId = userId;
             this.Username = username;
             this.Nickname = nickname;
-
+            string name = "사용자: " + Nickname;
             // XAML에서 정의한 lblNickname 컨트롤을 찾아서 속성에 할당합니다.
-            lblname = (Label)FindName("lblNickname");
+            lblname = (Emoji.Wpf.TextBlock)FindName("lblNickname");
 
             // 창이 로드될 때 별명을 lblNickname에 설정합니다.
             Loaded += (sender, e) =>
             {
                 if (lblname != null)
                 {
-                    SetNicknameWithEmoji(Nickname); // 이모지와 텍스트를 분리하여 설정
+                    SetNicknameWithEmoji(name); // 이모지와 텍스트를 분리하여 설정
                 }
             };
         }
         private void SetNicknameWithEmoji(string nickname)
         {
-            // TextBlock 생성
-            var textBlock = new TextBlock();
+            var panel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal
+            };
 
-            // 이모지 정규식 (유니코드 범위)
-            var emojiRegex = new Regex(@"[\u1F600-\u1F64F\u1F300-\u1F5FF\u1F680-\u1F6FF\u1F700-\u1F77F\u2600-\u26FF\u2700-\u27BF\u2B50]+");
+            var emojiRegex = new Regex(@"[\uD83C-\uDBFF\uDC00-\uDFFF\u2600-\u27BF\u2B50]+");
 
             int lastIndex = 0;
 
-            // 닉네임 문자열에서 이모지와 텍스트를 분리
             foreach (Match match in emojiRegex.Matches(nickname))
             {
-                // 이모지 이전의 일반 텍스트 추가
                 if (match.Index > lastIndex)
                 {
-                    textBlock.Inlines.Add(new Run(nickname.Substring(lastIndex, match.Index - lastIndex))
+                    var text = nickname.Substring(lastIndex, match.Index - lastIndex);
+                    panel.Children.Add(new System.Windows.Controls.TextBlock
                     {
-                        FontFamily = new FontFamily("Pretendard ExtraBold") // 일반 텍스트 폰트
+                        Text = text,
+                        FontFamily = new FontFamily("Pretendard ExtraBold"),
+                        FontSize = 22,
+                        Foreground = new SolidColorBrush(Color.FromRgb(224, 224, 224))
                     });
                 }
 
-                // 이모지 추가
-                textBlock.Inlines.Add(new Run(match.Value)
+                // EmojiTextBlock 사용하여 이모지 추가
+                panel.Children.Add(new System.Windows.Controls.TextBlock
                 {
-                    FontFamily = new FontFamily("Segoe UI Emoji") // 이모지 폰트
+                    Text = match.Value,
+                    FontSize = 22,
+                    FontFamily = new FontFamily("Segoe UI Emoji") // 컬러 이모지 폰트 설정
                 });
 
                 lastIndex = match.Index + match.Length;
             }
 
-            // 마지막 남은 일반 텍스트 추가
+            // 마지막에 남은 텍스트 추가
             if (lastIndex < nickname.Length)
             {
-                textBlock.Inlines.Add(new Run(nickname.Substring(lastIndex))
+                panel.Children.Add(new System.Windows.Controls.TextBlock
                 {
-                    FontFamily = new FontFamily("Pretendard ExtraBold") // 일반 텍스트 폰트
+                    Text = nickname.Substring(lastIndex),
+                    FontFamily = new FontFamily("Pretendard ExtraBold"),
+                    FontSize = 22,
+                    Foreground = new SolidColorBrush(Color.FromRgb(224, 224, 224))
                 });
             }
 
-            // lblname에 TextBlock 설정
-            lblname.Content = textBlock;
+            lblname.Inlines.Clear();
+            foreach (var child in panel.Children)
+            {
+                if (child is System.Windows.Controls.TextBlock textBlock)
+                {
+                    lblname.Inlines.Add(new Run(textBlock.Text)
+                    {
+                        FontFamily = textBlock.FontFamily,
+                        FontSize = textBlock.FontSize,
+                        Foreground = textBlock.Foreground
+                    });
+                }
+            }
         }
 
 
-        public Main()
+        /*public Main()
         {
             InitializeComponent();
             OpenDashBoard(); // 기본 메인 폼 진입 시 대시보드창
-        }
+        }*/
 
         private void OpenDashBoard()
         {
             ContentArea.Children.Clear();
-            var dashBoardControl = new DashBoard(); 
-            Grid.SetColumn(dashBoardControl, 1); 
+            var dashBoardControl = new DashBoard();
+            Grid.SetColumn(dashBoardControl, 1);
             ContentArea.Children.Add(dashBoardControl);
         }
-        
+
 
         private void btnMain_Click(object sender, RoutedEventArgs e)
         {

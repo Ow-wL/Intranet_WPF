@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,19 +13,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static Intranet02.SignUpWindow;
 
-namespace Intranet02
+namespace Intranet03
 {
-    public partial class LoginWindow : Window
+    /// <summary>
+    /// Login.xaml에 대한 상호 작용 논리
+    /// </summary>
+    public partial class Login : Window
     {
         private readonly HttpClient client = new HttpClient();
-        public LoginWindow()
+        public Login()
         {
             InitializeComponent();
-
             AddPlaceholder(IDtext, "아이디");
             AddPlaceholder(PWtext, "비밀번호");
 
@@ -40,6 +41,7 @@ namespace Intranet02
 
             this.PreviewKeyDown += LoginWindow_PreviewKeyDown;
         }
+
         private void LoginWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -165,23 +167,23 @@ namespace Intranet02
         private void Signupbtn_Click(object sender, RoutedEventArgs e)
         {
             // MessageBox.Show("회원가입으로 이동합니다.", "정보", MessageBoxButton.OK, MessageBoxImage.Information);
-            SignUpWindow signUpWindow = new SignUpWindow();
-            signUpWindow.Show();
+            Register registerwindow = new Register();
+            registerwindow.Show();
             this.Close();
         }
     }
     public class LoginResponse
     {
-        public string status { get; set; }
-        public string message { get; set; }
-        public int userId { get; set; }
-        public string username { get; set; }
-        public string nickname { get; set; }
+        public required string status { get; set; }
+        public required string message { get; set; }
+        public required int userId { get; set; }
+        public required string username { get; set; }
+        public required string nickname { get; set; }
     }
 
     public class ErrorResponse
     {
-        public string status { get; set; }
-        public string message { get; set; }
+        public required string status { get; set; }
+        public required string message { get; set; }
     }
 }
