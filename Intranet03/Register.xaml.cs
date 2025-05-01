@@ -14,15 +14,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Intranet02
+namespace Intranet03
 {
-    public partial class SignUpWindow : Window
+    /// <summary>
+    /// Register.xaml에 대한 상호 작용 논리
+    /// </summary>
+    public partial class Register : Window
     {
         private static readonly HttpClient client = new HttpClient();
-        public SignUpWindow()
+
+        public Register()
         {
             InitializeComponent();
-
             AddPlaceholder(IDtext, "아이디");
             AddPlaceholder(NameText, "별명");
             AddPlaceholder(PWtext, "비밀번호");
@@ -172,7 +175,7 @@ namespace Intranet02
                     if (registerResult?.status == "success")
                     {
                         MessageBox.Show($"회원가입 성공! 사용자 {registerResult.nickname}!", "정보", MessageBoxButton.OK, MessageBoxImage.Information);
-                        LoginWindow LoginWindow = new LoginWindow();
+                        Login LoginWindow = new Login();
                         LoginWindow.Show();
                         this.Close();
                     }
@@ -236,12 +239,12 @@ namespace Intranet02
             public string status { get; set; }
             public string message { get; set; }
             public int id { get; set; }
-            public string nickname { get; set; } 
+            public string nickname { get; set; }
         }
 
         private void returnbtn_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow LoginWindow = new LoginWindow();
+            Login LoginWindow = new Login();
             LoginWindow.Show();
             this.Close();
         }

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Intranet02
+namespace Intranet03
 {
     /// <summary>
     /// Post.xaml에 대한 상호 작용 논리

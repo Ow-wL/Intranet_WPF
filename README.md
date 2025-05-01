@@ -37,8 +37,10 @@
 
 ## 설치한 NuGet
 
-+ MahApps.Metro 
++ System.Net.Http.Json (DB 통신)
++ MahApps.Metro (내용 미리보기)
 + ControlzEx (위 설치 시 같이 설치됨)
++ Emoji.Wpf (컬러 이모지)
 
 ## Day Work
 
@@ -61,6 +63,7 @@
 회원가입 시 별명 설정<br>
 대시보드 & 게시판 xaml 디자인<br>
 메인폼 별명 추가(이모지 출력)<br>
+Emoji.wpf 사용을 위한 .NET 8.0 WPF로 변경 <br>
 <br>
 
 </details>
