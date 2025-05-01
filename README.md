@@ -34,3 +34,15 @@
     + { "Customer Service" } = ("YM's Tip", "Easy Copy", "Templete")
     + { "Personal Setting" } = ("Change NickName", "Change Password", "Change Profile")
     + { "Admin Menu" } = ("Post Modify", "Permission Modify", "User Modify")
+
+## Day Work
+
++ 25-04-27 / 로그인 폼 & 회원가입 폼 디자인 
++ 25-04-30 / 로그인 & 회원가입 서버 DB 시스템 구현, 메인 폼 디자인
++ 25-05-01 / 
+
+
+## 설치한 NuGet
+
++ MahApps.Metro 
++ ControlzEx (위 설치 시 같이 설치됨)

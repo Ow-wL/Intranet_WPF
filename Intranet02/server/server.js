@@ -1,3 +1,6 @@
+// D:
+// cd D:\CS_WS\Intranet02\Intranet02\server
+// node server.js
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');

@@ -7,13 +7,46 @@
         mc:Ignorable="d"
         Title="SHIBA STAFF" Height="750" Width="1200"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Grid>
-        <!-- 메뉴바 영역 -->
+
+    <!-- 스타일 정의 -->
+    <Window.Resources>
+        <Style TargetType="Button">
+            <!-- 기본 배경색 제거 -->
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Pretendard SemiBold"/>
+            <Setter Property="Width" Value="140"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock Text="{TemplateBinding Content}" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               FontSize="{TemplateBinding FontSize}" 
+                               FontWeight="{TemplateBinding FontWeight}" 
+                               FontFamily="{TemplateBinding FontFamily}" 
+                               Foreground="{TemplateBinding Foreground}"/>
+                        <ControlTemplate.Triggers>
+                            <!-- 마우스 오버 시 글자색 변경 -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="GridMain">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="222"/>
-            <!-- 메뉴바 너비 -->
-            <ColumnDefinition/>
-            <!-- 나머지 콘텐츠 -->
+            <!-- 왼쪽 메뉴 -->
+            <ColumnDefinition Width="*"/>
+            <!-- 오른쪽 콘텐츠 -->
         </Grid.ColumnDefinitions>
 
         <!-- 메뉴바 -->
@@ -24,17 +57,15 @@
             TextAlignment="Center" Foreground="#FFFFB922" FontFamily="Pretendard ExtraBold"/>
             <Rectangle Height="2" Width="180" Fill="#FF757E85" HorizontalAlignment="Center" Margin="0,5,0,5"/>
 
-            <Button x:Name="btnMain" Content="메인" Background="Transparent" BorderBrush="Transparent" Foreground="White" FontSize="24" Margin="10" FontWeight="Bold" Width="140" FontFamily="Pretendard SemiBold"/>
-            <Button x:Name="btnPost" Content="게시판" Background="Transparent" BorderBrush="Transparent" Foreground="White" FontSize="24" Margin="10" FontWeight="Bold" Width="140" FontFamily="Pretendard SemiBold"/>
-            <Button x:Name="btnAnswer" Content="해결방법" Background="Transparent" BorderBrush="Transparent" Foreground="White" FontSize="24" Margin="10" FontWeight="Bold" Width="140" FontFamily="Pretendard SemiBold"/>
-            <Button x:Name="btnCS" Content="고객센터" Background="Transparent" BorderBrush="Transparent" Foreground="White" FontSize="24" Margin="10" FontWeight="Bold" Width="140" FontFamily="Pretendard SemiBold"/>
-            <Button x:Name="btnSetting" Content="설정" Background="Transparent" BorderBrush="Transparent" Foreground="White" FontSize="24" Margin="10" FontWeight="Bold" Width="140" FontFamily="Pretendard SemiBold"/>
-            <Button x:Name="btnAdmin" Content="관리메뉴" Background="Transparent" BorderBrush="Transparent" Foreground="White" FontSize="24" Margin="10" FontWeight="Bold" Width="140" FontFamily="Pretendard SemiBold"/>
+            <Button x:Name="btnMain" Content="메인" Margin="10" Click="btnMain_Click"/>
+            <Button x:Name="btnPost" Content="게시판" Margin="10" Click="btnPost_Click"/>
+            <Button x:Name="btnAnswer" Content="해결방법" Margin="10"/>
+            <Button x:Name="btnCS" Content="고객센터" Margin="10"/>
+            <Button x:Name="btnSetting" Content="설정" Margin="10"/>
+            <Button x:Name="btnAdmin" Content="관리메뉴" Margin="10"/>
         </StackPanel>
 
         <!-- 메인 콘텐츠 -->
-        <Grid Background="#FF08080A" Margin="0,0,-12,0" Grid.Column="1">
-            <!-- 여기에 메인 콘텐츠를 추가 -->
-        </Grid>
+        <Grid Grid.Column="1" x:Name="ContentArea" Background="#FF09090B"/>
     </Grid>
 </Window>
