@@ -119,8 +119,8 @@ namespace Intranet02
                     if (loginResult?.status == "success")
                     {
                         MessageBox.Show($"로그인 성공! 사용자 {loginResult.nickname}", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
-                        Main main = new Main();
-                        main.Show();
+                        Main mainWindow = new Main(loginResult.userId, loginResult.username, loginResult.nickname);
+                        mainWindow.Show();
                         this.Close();
                     }
                     else
