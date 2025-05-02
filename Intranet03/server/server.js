@@ -1,7 +1,7 @@
-// D:
-// D:\CS_WS\Intranet03\Intranet03\server 
-// node server.js
 // npm install express mysql2 body-parser cors
+// D:
+// cd CS_WS\Intranet03\Intranet03\server 
+// node server.js
 
 const mysql = require('mysql2');
 const express = require('express');
