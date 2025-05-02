@@ -35,6 +35,12 @@
     + { "Personal Setting" } = ("Change NickName", "Change Password", "Change Profile")
     + { "Admin Menu" } = ("Post Modify", "Permission Modify", "User Modify")
 
+### 25-05-02      
++ DB 통신 시스템 SQLite -> MySQL로 변경
++ 대시보드 창 실시간 접속 유저 표기
++ 게시판 C# 코드 구현 글 작성 기능 글 보기 기능 추가
++ 최근에 올라온 게시물 대시보드에서 확인할 수 있는 기능 추가
+
 ## 설치한 NuGet
 
 + System.Net.Http.Json (DB 통신)
@@ -64,6 +70,15 @@
 대시보드 & 게시판 xaml 디자인<br>
 메인폼 별명 추가(이모지 출력)<br>
 Emoji.wpf 사용을 위한 .NET 8.0 WPF로 변경 <br>
+컬러 이모지 구현 <br>
+<br>
+
+</details>
+
+<details>
+<summary>25-05-02 ( 4일차 ) </summary>
+SQLite -> MySQL 변환<br>
+
 <br>
 
 </details>
