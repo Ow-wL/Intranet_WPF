@@ -7,53 +7,80 @@
         xmlns:local="clr-namespace:Intranet03"
         mc:Ignorable="d"
         Height="734.04" Width="978" Background="#FF09090B">
-    <Grid Margin="20">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="88*"/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="378*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <!-- Resources 정의를 UserControl 바로 아래로 이동 -->
+    <UserControl.Resources>
+        <Style TargetType="DatePicker">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePicker">
+                        <Grid>
+                            <!-- TextBox for displaying the selected date -->
+                            <TextBox x:Name="PART_TextBox"
+                                 FontFamily="Pretendard Semi-Bold"
+                                 Margin="0,0,10,0"
+                                 mah:TextBoxHelper.Watermark="날짜 선택"
+                                 IsReadOnly="True" />
+
+                            <!-- Button for opening the date picker popup -->
+                            <Button x:Name="PART_Button"
+                                Content="▼"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Width="20"
+                                Margin="0,0,14,0"
+                                Background="#FFF6F6F6"
+                                BorderBrush="{x:Null}"
+                                BorderThickness="1" Foreground="#FF09090B" FontFamily="Pretendard" FontSize="9" />
+
+                            <!-- Popup for the calendar -->
+                            <Popup x:Name="PART_Popup"
+                               Placement="Bottom"
+                               StaysOpen="False"
+                               IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Border BorderBrush="Gray" BorderThickness="1" Background="White">
+                                    <Calendar x:Name="PART_Calendar" />
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Canvas Background="#FF09090B" Width="978">
+
 
         <!-- Title -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,10" Grid.ColumnSpan="3">
-            <TextBlock Text="게시판" FontSize="24" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="게시글을 작성하여 SHIBA 대시보드 이용자들과 소통하세요." 
-                   FontSize="14" Foreground="Gray" Margin="0,5,0,0"/>
-        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Canvas.Left="20" Canvas.Top="24"/>
+
+        <!-- Write Button -->
+        <Button Content="글쓰기" Width="80" FontFamily="Pretendard SemiBold" FontSize="16" Height="31" HorizontalAlignment="Left" Canvas.Left="867" Canvas.Top="78" VerticalAlignment="Center"/>
 
         <!-- Filters -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,10" HorizontalAlignment="Left" Grid.ColumnSpan="3">
-            <DatePicker Width="140" Margin="0,0,10,0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="119" VerticalAlignment="Center" Width="914">
+            <DatePicker Width="140" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <ComboBox Width="140" Margin="0,0,10,0" 
-                  mah:TextBoxHelper.Watermark="카테고리 선택">
+                  mah:TextBoxHelper.Watermark="카테고리 선택" FontFamily="Pretendard Semi-Bold" Height="26">
                 <ComboBoxItem Content="전체"/>
                 <ComboBoxItem Content="공지사항"/>
                 <ComboBoxItem Content="전달사항"/>
                 <ComboBoxItem Content="휴가신청"/>
             </ComboBox>
-            <TextBox Width="200" Margin="0,0,10,0" 
-                 mah:TextBoxHelper.Watermark="제목 입력"/>
-            <TextBox Width="200" Margin="0,0,10,0" 
-                 mah:TextBoxHelper.Watermark="작성자 입력"/>
-            <Button Content="조회" Width="80" Margin="0,0,10,0"/>
-            <Button Content="초기화" Width="80"/>
+            <TextBox Width="180" Margin="0,0,10,0" 
+                 mah:TextBoxHelper.Watermark="제목 입력" FontFamily="Pretendard Semi-Bold" VerticalAlignment="Center"/>
+            <TextBox Width="180" Margin="0,0,10,0" 
+                 mah:TextBoxHelper.Watermark="작성자 입력" FontFamily="Pretendard Semi-Bold" VerticalAlignment="Center"/>
+            <Button Content="조회" Width="80" Margin="66,0,8,0" FontFamily="Pretendard SemiBold" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Button Content="초기화" Width="80" FontFamily="Pretendard SemiBold" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <!-- Write Button -->
-        <Button Content="글쓰기" Grid.Row="2" HorizontalAlignment="Right" Width="80" Margin="0,3,0,491" Grid.Column="2"/>
-
         <!-- 게시글 목록 -->
-        <DataGrid Grid.Row="2" Margin="0,10,0,10"
+        <DataGrid Grid.Row="2"
               AutoGenerateColumns="False"
               HeadersVisibility="Column"
               CanUserAddRows="False"
-              IsReadOnly="True" Grid.ColumnSpan="3">
+              IsReadOnly="True" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="165" HorizontalAlignment="Center" VerticalAlignment="Top" Width="914" Height="502">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="카테고리" Width="*" Binding="{Binding Category}"/>
                 <DataGridTextColumn Header="제목" Width="2*" Binding="{Binding Title}"/>
@@ -62,13 +89,16 @@
                 <DataGridTextColumn Header="작성일" Width="*" Binding="{Binding Date}"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <!-- Pagination -->
-        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Left" Grid.Column="2" Margin="229,0,0,0">
+        <TextBlock Text="게시판" FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA" HorizontalAlignment="Left" Canvas.Left="33" Canvas.Top="10" VerticalAlignment="Top"/>
+        <TextBlock Text="게시판에 작성하여 정보를 공유하세요!" 
+                   FontFamily="Pretendard Bold" FontSize="24" Foreground="#FFD8D8D8" HorizontalAlignment="Left" Canvas.Left="33" Canvas.Top="72" VerticalAlignment="Top"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2" Canvas.Left="431" Canvas.Top="667" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Button Content="&lt;" Width="30" Margin="5"/>
             <TextBlock Text="1 / 2" VerticalAlignment="Center" Foreground="White" Margin="5"/>
             <Button Content="&gt;" Width="30" Margin="5"/>
         </StackPanel>
-        <mah:FlipView Grid.Row="1" Grid.ColumnSpan="3" Margin="0,0,0,491" Grid.RowSpan="2"/>
-    </Grid>
+
+        <!-- Pagination -->
+        
+    </Canvas>
 </UserControl>
