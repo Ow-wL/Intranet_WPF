@@ -1,0 +1,4 @@
+CREATE DATABASE intranet;
+CREATE USER 'owl'@'localhost' IDENTIFIED BY 'CHANGE_ME';
+GRANT ALL PRIVILEGES ON intranet.* TO 'owl'@'localhost';
+FLUSH PRIVILEGES;
