@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:Intranet03"
+        xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
         mc:Ignorable="d"
         Height="734.04" Width="978" Background="#FF09090B">
     <!-- Resources 정의를 UserControl 바로 아래로 이동 -->
@@ -85,13 +86,35 @@
               CanUserAddRows="False"
               CanUserReorderColumns="False" 
               CanUserResizeColumns="False"
-              IsReadOnly="True" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="165" HorizontalAlignment="Center" VerticalAlignment="Center" Width="906" Height="502">
+              IsReadOnly="True" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="165" 
+              HorizontalAlignment="Center" VerticalAlignment="Center" Width="906" Height="502"
+              FontFamily="Pretendard Light" FontSize="14">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="카테고리" Width="*" Binding="{Binding Category}"/>
-                <DataGridTextColumn Header="제목" Width="2*" Binding="{Binding Title}"/>
-                <DataGridTextColumn Header="작성자" Width="*" Binding="{Binding Author}"/>
+                <DataGridTemplateColumn Header="제목" Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <InlineUIContainer>
+                                    <emoji:TextBlock Text="{Binding Title}" FontSize="14"/>
+                                </InlineUIContainer>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="작성자" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <InlineUIContainer>
+                                    <emoji:TextBlock Text="{Binding Author}" FontSize="14"/>
+                                </InlineUIContainer>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="조회" Width="0.5*" Binding="{Binding Views}"/>
-                <DataGridTextColumn Header="작성일" Width="*" Binding="{Binding Date, StringFormat=yyyy-MM-dd}"/>
+                <DataGridTextColumn Header="작성일" Width="*" Binding="{Binding Date, StringFormat='yyyy-MM-dd HH:mm:ss'}"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Text="게시판" FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA" HorizontalAlignment="Left" Canvas.Left="33" Canvas.Top="10" VerticalAlignment="Top"/>

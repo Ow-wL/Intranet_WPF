@@ -26,7 +26,7 @@ namespace Intranet03
         public Login()
         {
             InitializeComponent();
-            AddPlaceholder(IDtext, "아이디");
+            /*AddPlaceholder(IDtext, "아이디");
             AddPlaceholder(PWtext, "비밀번호");
 
             IDtext.TextChanged += (s, e) =>
@@ -37,9 +37,9 @@ namespace Intranet03
             PWtext.PasswordChanged += (s, e) =>
             {
                 UpdatePasswordPlaceholder();
-            };
+            };*/
 
-            this.PreviewKeyDown += LoginWindow_PreviewKeyDown;
+            this.PreviewKeyDown += LoginWindow_PreviewKeyDown; // 엔터키 입력 시 로그인 버튼 클릭 이벤트 호출
         }
 
         private void LoginWindow_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -49,7 +49,7 @@ namespace Intranet03
                 Loginbtn_Click(Loginbtn, new RoutedEventArgs());
             }
         }
-        private void AddPlaceholder(Control control, string placeholder)
+        /*private void AddPlaceholder(Control control, string placeholder)
         {
             control.Loaded += (s, e) =>
             {
@@ -96,7 +96,7 @@ namespace Intranet03
                     adornerLayer.Add(placeholderAdorner);
                 }
             }
-        }
+        }*/
 
         private async void Loginbtn_Click(object sender, RoutedEventArgs e)
         {

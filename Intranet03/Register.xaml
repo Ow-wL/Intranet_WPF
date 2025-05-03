@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:Intranet03"
         mc:Ignorable="d"
         Title="SHIBA STAFF" Height="617" Width="385"
@@ -21,18 +22,23 @@
 
             <TextBox x:Name="IDtext" 
              Height="30" Margin="0,0,0,10" 
-             Width="250"/>
+             Width="250"
+             mah:TextBoxHelper.Watermark="아이디" FontFamily="Pretendard Light" FontSize="14"/>
+            
             <TextBox x:Name="NameText" 
-            Height="30" Margin="0,0,0,20" 
-            Width="250"/>
+             Height="30" Margin="0,0,0,20" 
+             Width="250"
+             mah:TextBoxHelper.Watermark="별명" FontFamily="Pretendard Light" FontSize="14"/>
 
             <PasswordBox x:Name="PWtext" 
              Height="30" Margin="0,0,0,10" 
-             Width="250"/>
+             Width="250"
+             mah:TextBoxHelper.Watermark="비밀번호" FontFamily="Pretendard Light" FontSize="14"/>
 
             <PasswordBox x:Name="PWChecktext" 
              Height="30" Margin="0,0,0,20" 
-             Width="250"/>
+             Width="250"
+             mah:TextBoxHelper.Watermark="비밀번호 확인" FontFamily="Pretendard Light" FontSize="14"/>
 
             <Button x:Name="Registerbtn" Content="회원가입" 
             Height="39" 

@@ -7,6 +7,7 @@
         xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
         mc:Ignorable="d"
         Title="SHIBA STAFF" Height="750" Width="1200"
+        Icon="D:\CS_WS\Intranet03\Intranet03\icon.ico"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <!-- 스타일 정의 -->
     <Window.Resources>
