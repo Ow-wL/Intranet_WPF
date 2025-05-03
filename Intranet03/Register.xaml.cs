@@ -26,7 +26,7 @@ namespace Intranet03
         public Register()
         {
             InitializeComponent();
-            AddPlaceholder(IDtext, "아이디");
+            /*AddPlaceholder(IDtext, "아이디");
             AddPlaceholder(NameText, "별명");
             AddPlaceholder(PWtext, "비밀번호");
             AddPlaceholder(PWChecktext, "비밀번호 확인");
@@ -49,8 +49,8 @@ namespace Intranet03
             PWChecktext.PasswordChanged += (s, e) =>
             {
                 UpdatePasswordCheckPlaceholder();
-            };
-            this.PreviewKeyDown += SignUpWindow_PreviewKeyDown;
+            };*/
+            this.PreviewKeyDown += SignUpWindow_PreviewKeyDown; // 엔터키 입력 시 회원가입 버튼 클릭 이벤트 호출
         }
         private void SignUpWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -59,7 +59,8 @@ namespace Intranet03
                 Registerbtn_Click(Registerbtn, new RoutedEventArgs());
             }
         }
-        private void AddPlaceholder(Control control, string placeholder)
+
+        /*private void AddPlaceholder(Control control, string placeholder)
         {
             control.Loaded += (s, e) =>
             {
@@ -142,13 +143,13 @@ namespace Intranet03
                     adornerLayer.Add(placeholderAdorner);
                 }
             }
-        }
+        }*/
         private async void Registerbtn_Click(object sender, RoutedEventArgs e)
         {
-            string id = IDtext.Text; // ID 필드는 그대로 사용한다고 가정
+            string id = IDtext.Text; 
             string password = PWtext.Password;
             string passwordCheck = PWChecktext.Password;
-            string nickname = NameText.Text; // 별명 입력 필드 값 가져오기
+            string nickname = NameText.Text; 
 
             if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(passwordCheck) || string.IsNullOrEmpty(nickname))
             {

@@ -3,6 +3,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using Emoji.Wpf;
 
 namespace Intranet03
 {
@@ -25,7 +27,7 @@ namespace Intranet03
             if (datePicker == null) return;
 
             // 템플릿에서 PART_TextBox를 찾습니다.
-            var textBox = datePicker.Template.FindName("PART_TextBox", datePicker) as TextBox;
+            var textBox = datePicker.Template.FindName("PART_TextBox", datePicker) as System.Windows.Controls.TextBox;
             if (textBox == null) return;
 
             if (datePicker.SelectedDate.HasValue)
@@ -75,7 +77,7 @@ namespace Intranet03
 
         private void Post_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadPostList(); // 데이터 로드
+            LoadPostList(); 
         }
 
         private async Task<List<PostItem>> GetPostListFromApi()
@@ -95,6 +97,7 @@ namespace Intranet03
                             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                             List<PostItem>? posts = JsonSerializer.Deserialize<List<PostItem>>(jsonString, options); 
                             return posts ?? new List<PostItem>(); 
+
                         }
                         else
                         {
@@ -129,7 +132,7 @@ namespace Intranet03
             DataGridTextColumn? dateColumn = dgPostlist.Columns.FirstOrDefault(col => col.Header.ToString() == "작성일") as DataGridTextColumn;
             if (dateColumn != null)
             {
-                dateColumn.Binding.StringFormat = "yyyy-MM-dd"; // 원하는 날짜 형식 지정
+                dateColumn.Binding.StringFormat = "yyyy-MM-dd HH:mm:ss"; 
             }
         }
 

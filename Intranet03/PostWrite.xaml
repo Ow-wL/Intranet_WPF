@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Intranet03"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+        Icon="D:\CS_WS\Intranet03\Intranet03\icon.ico"
         mc:Ignorable="d"
         Title="글 작성" Height="435" Width="615" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF09090B">
 
     <Canvas Margin="10" Background="#FF09090B">
         <!-- 글 제목 -->
-        <TextBox x:Name="tbTitle" Canvas.Left="10" Canvas.Top="10" Width="432" 
-                  mah:TextBoxHelper.Watermark="제목입력" FontFamily="Pretendard Semi-Bold" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <emoji:TextBox x:Name="tbTitle" Canvas.Left="10" Canvas.Top="10" Width="432" 
+                  FontFamily="Pretendard Semi-Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top" Height="26.7"/>
 
         <!-- 카테고리 선택 -->
         <ComboBox x:Name="cbCategory" Canvas.Left="454" mah:TextBoxHelper.Watermark="카테고리 선택" 
@@ -27,8 +29,8 @@
         </ComboBox>
 
         <!-- 글 내용 -->
-        <RichTextBox x:Name="rtbContent" Canvas.Left="10" Canvas.Top="55" Width="560" Height="266"
-                     mah:TextBoxHelper.Watermark="내용 입력" FontFamily="Pretendard Semi-Bold" FontSize="14" 
+        <emoji:RichTextBox x:Name="rtbContent" Canvas.Left="10" Canvas.Top="55" Width="560" Height="266"
+                     FontFamily="Pretendard Semi-Bold" FontSize="14" 
                      VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
         <!-- 버튼 -->

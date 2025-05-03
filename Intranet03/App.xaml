@@ -5,6 +5,7 @@
              StartupUri="Login.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <Window x:Key="MainWindow" Icon="D:\CS_WS\Intranet03\Intranet03\icon.ico"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
