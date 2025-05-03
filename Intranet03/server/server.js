@@ -134,6 +134,7 @@ app.post('/posts', (req, res) => {
     });
 });
 
+// 게시글 조회 엔드포인트
 app.get('/posts', (req, res) => {
     const query = 'SELECT id, author, title, content, category, created_at AS Date, view_count AS Views FROM posts ORDER BY created_at DESC';
     db.query(query, (err, results) => {
@@ -143,6 +144,43 @@ app.get('/posts', (req, res) => {
         res.status(200).json(results);
     });
 });
+
+// 게시글 삭제 엔드포인트
+app.delete('/posts/:id', (req, res) => {
+    const postId = req.params.id;
+    const author = req.query.author; // 요청 본문에서 작성자 정보를 가져옵니다.
+
+    if (!author) {
+        return res.status(400).json({ status: 'error', message: '작성자 정보가 필요합니다.' });
+    }
+
+    // 게시글을 찾고 작성자 확인
+    const findPostQuery = 'SELECT author FROM posts WHERE id = ?';
+    db.query(findPostQuery, [postId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ status: 'error', message: err.message });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ status: 'error', message: '게시글을 찾을 수 없습니다.' });
+        }
+
+        const post = results[0];
+        if (post.author !== author) {
+            return res.status(403).json({ status: 'error', message: '삭제 권한이 없습니다.' });
+        }
+
+        // 게시글 삭제
+        const deletePostQuery = 'DELETE FROM posts WHERE id = ?';
+        db.query(deletePostQuery, [postId], (err, results) => {
+            if (err) {
+                return res.status(500).json({ status: 'error', message: err.message });
+            }
+            res.status(200).json({ status: 'success', message: '게시글이 삭제되었습니다.' });
+        });
+    });
+});
+
 
 // 서버 실행
 const PORT = process.env.PORT || 3000;

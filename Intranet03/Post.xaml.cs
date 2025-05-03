@@ -3,7 +3,10 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 using Emoji.Wpf;
 
 namespace Intranet03
@@ -129,11 +132,22 @@ namespace Intranet03
             List<PostItem> postList = await GetPostListFromApi();
             dgPostlist.ItemsSource = postList;
 
-            DataGridTextColumn? dateColumn = dgPostlist.Columns.FirstOrDefault(col => col.Header.ToString() == "작성일") as DataGridTextColumn;
-            if (dateColumn != null)
+            var existingDateColumn = dgPostlist.Columns
+                .FirstOrDefault(col => col.Header?.ToString() == "작성일");
+            if (existingDateColumn != null)
             {
-                dateColumn.Binding.StringFormat = "yyyy-MM-dd HH:mm:ss"; 
+                dgPostlist.Columns.Remove(existingDateColumn);
             }
+
+            var dateColumn = new DataGridTextColumn
+            {
+                Header = "작성일",
+                Binding = new Binding("Date")
+                {
+                    StringFormat = "yyyy-MM-dd HH:mm:ss"
+                }
+            };
+            dgPostlist.Columns.Add(dateColumn);
         }
 
         // 글 목록 가져오기
@@ -147,5 +161,85 @@ namespace Intranet03
             public DateTime Date { get; set; }
             public int Views { get; set; }
         }
+
+        // 글 삭제 구현 우클릭 메뉴
+        private void dgPostlist_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid dataGrid = sender as DataGrid;
+            if (dataGrid == null) return;
+
+            DependencyObject source = e.OriginalSource as DependencyObject;
+
+            while (source != null && !(source is Visual))
+            {
+                source = LogicalTreeHelper.GetParent(source);
+            }
+
+            if (source == null) return;
+
+            DataGridRow row = FindVisualParent<DataGridRow>(source);
+            if (row == null) return;
+
+            PostItem postItem = row.Item as PostItem;
+            if (postItem == null) return;
+
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem deleteMenuItem = new MenuItem { Header = "삭제" };
+            deleteMenuItem.Click += (s, args) => ConfirmDelete(postItem);
+            contextMenu.Items.Add(deleteMenuItem);
+            contextMenu.IsOpen = true;
+        }
+
+        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+
+            T parent = parentObject as T;
+            return parent ?? FindVisualParent<T>(parentObject);
+        }
+
+
+        private void ConfirmDelete(PostItem postItem)
+        {
+            MessageBoxResult result = MessageBox.Show("정말로 삭제하시겠습니까?", "삭제 확인", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                DeletePost(postItem);
+            }
+        }
+
+        private async void DeletePost(PostItem postItem)
+        {
+            if (postItem.Author != this.Nickname)
+            {
+                MessageBox.Show("삭제 권한이 없습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            using (var httpClient = new HttpClient())
+            {
+                try
+                {
+                    string serverUrl = $"http://localhost:3000/posts/{postItem.Id}?author={this.Nickname}";
+                    HttpResponseMessage response = await httpClient.DeleteAsync(serverUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("게시글이 삭제되었습니다.", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
+                        LoadPostList();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"게시글 삭제 실패: {response.StatusCode}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show($"HTTP 요청 오류: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
     }
 }
