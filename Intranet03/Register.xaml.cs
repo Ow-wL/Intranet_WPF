@@ -191,8 +191,8 @@ namespace Intranet03
             }
             else
             {
-                string errorMessage = response.ReasonPhrase;
-                if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+                string errorMessage = response?.ReasonPhrase ?? "Null Error";
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.Conflict)
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
                     try
@@ -210,18 +210,25 @@ namespace Intranet03
                 }
                 else
                 {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    try
+                    if (response != null) 
                     {
-                        var errorResult = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(errorContent);
-                        if (errorResult?.message != null)
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        try
                         {
-                            errorMessage = errorResult.message;
+                            var errorResult = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(errorContent);
+                            if (errorResult?.message != null)
+                            {
+                                errorMessage = errorResult.message;
+                            }
+                        }
+                        catch (System.Text.Json.JsonException)
+                        {
+                            // JSON 파싱 실패 시 기본 오류 메시지 사용
                         }
                     }
-                    catch (System.Text.Json.JsonException)
+                    else
                     {
-                        // JSON 파싱 실패 시 기본 오류 메시지 사용
+                        errorMessage = "서버 응답 오류"; // 또는 다른 적절한 오류 메시지
                     }
                 }
                 MessageBox.Show($"회원가입 실패: {errorMessage}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -236,10 +243,10 @@ namespace Intranet03
 
         public class RegisterResponse
         {
-            public string status { get; set; }
-            public string message { get; set; }
+            public string? status { get; set; }
+            public string? message { get; set; }
             public int id { get; set; }
-            public string nickname { get; set; }
+            public string? nickname { get; set; }
         }
 
         private void returnbtn_Click(object sender, RoutedEventArgs e)

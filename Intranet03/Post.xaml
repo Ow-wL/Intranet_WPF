@@ -17,6 +17,7 @@
                             <!-- TextBox for displaying the selected date -->
                             <TextBox x:Name="PART_TextBox"
                                  FontFamily="Pretendard Semi-Bold"
+                                 FontSize="14"
                                  Margin="0,0,10,0"
                                  mah:TextBoxHelper.Watermark="날짜 선택"
                                  IsReadOnly="True" />
@@ -55,50 +56,54 @@
         <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Canvas.Left="20" Canvas.Top="24"/>
 
         <!-- Write Button -->
-        <Button Content="글쓰기" Width="80" FontFamily="Pretendard SemiBold" FontSize="16" Height="31" HorizontalAlignment="Left" Canvas.Left="867" Canvas.Top="78" VerticalAlignment="Center"/>
+        <Button x:Name="btnPostup" Content="글쓰기" Width="80" FontFamily="Pretendard SemiBold" FontSize="16" Height="31" HorizontalAlignment="Center" Canvas.Left="867" Canvas.Top="78" VerticalAlignment="Center" Click="btnPostup_Click"/>
 
         <!-- Filters -->
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="119" VerticalAlignment="Center" Width="914">
-            <DatePicker Width="140" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <ComboBox Width="140" Margin="0,0,10,0" 
-                  mah:TextBoxHelper.Watermark="카테고리 선택" FontFamily="Pretendard Semi-Bold" Height="26">
+            <DatePicker x:Name="dpDate" Width="233" Margin="0,0,10,0" VerticalAlignment="Center" SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+            <ComboBox x:Name="cbCategory" Width="140" Margin="0,0,10,0" 
+                  mah:TextBoxHelper.Watermark="카테고리 선택" FontFamily="Pretendard Semi-Bold" Height="26" FontSize="14">
                 <ComboBoxItem Content="전체"/>
                 <ComboBoxItem Content="공지사항"/>
-                <ComboBoxItem Content="전달사항"/>
-                <ComboBoxItem Content="휴가신청"/>
+                <ComboBoxItem Content="문제 해결 방법"/>
+                <ComboBoxItem Content="RP 관련"/>
+                <ComboBoxItem Content="꿀팁"/>
+                <ComboBoxItem Content="좌표"/>
             </ComboBox>
-            <TextBox Width="180" Margin="0,0,10,0" 
-                 mah:TextBoxHelper.Watermark="제목 입력" FontFamily="Pretendard Semi-Bold" VerticalAlignment="Center"/>
-            <TextBox Width="180" Margin="0,0,10,0" 
-                 mah:TextBoxHelper.Watermark="작성자 입력" FontFamily="Pretendard Semi-Bold" VerticalAlignment="Center"/>
-            <Button Content="조회" Width="80" Margin="66,0,8,0" FontFamily="Pretendard SemiBold" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <Button Content="초기화" Width="80" FontFamily="Pretendard SemiBold" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox x:Name="tbTitle" Width="140" Margin="0,0,10,0" 
+                 mah:TextBoxHelper.Watermark="제목 입력" FontFamily="Pretendard Semi-Bold" VerticalAlignment="Center" FontSize="14"/>
+            <TextBox x:Name="tbAuthor" Width="140" Margin="0,0,10,0" 
+                 mah:TextBoxHelper.Watermark="작성자 입력" FontFamily="Pretendard Semi-Bold" VerticalAlignment="Center" FontSize="14"/>
+            <Button x:Name="btnSearch" Content="조회" Width="80" Margin="53,0,8,0" FontFamily="Pretendard SemiBold" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Click="btnSearch_Click"/>
+            <Button x:Name="btnReset" Content="초기화" Width="80" FontFamily="Pretendard SemiBold" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         </StackPanel>
 
         <!-- 게시글 목록 -->
-        <DataGrid Grid.Row="2"
+        <DataGrid x:Name="dgPostlist" Grid.Row="2"
               AutoGenerateColumns="False"
               HeadersVisibility="Column"
               CanUserAddRows="False"
-              IsReadOnly="True" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="165" HorizontalAlignment="Center" VerticalAlignment="Top" Width="914" Height="502">
+              CanUserReorderColumns="False" 
+              CanUserResizeColumns="False"
+              IsReadOnly="True" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="165" HorizontalAlignment="Center" VerticalAlignment="Center" Width="906" Height="502">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="카테고리" Width="*" Binding="{Binding Category}"/>
                 <DataGridTextColumn Header="제목" Width="2*" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="작성자" Width="*" Binding="{Binding Author}"/>
-                <DataGridTextColumn Header="조회" Width="*" Binding="{Binding Views}"/>
-                <DataGridTextColumn Header="작성일" Width="*" Binding="{Binding Date}"/>
+                <DataGridTextColumn Header="조회" Width="0.5*" Binding="{Binding Views}"/>
+                <DataGridTextColumn Header="작성일" Width="*" Binding="{Binding Date, StringFormat=yyyy-MM-dd}"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Text="게시판" FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA" HorizontalAlignment="Left" Canvas.Left="33" Canvas.Top="10" VerticalAlignment="Top"/>
         <TextBlock Text="게시판에 작성하여 정보를 공유하세요!" 
                    FontFamily="Pretendard Bold" FontSize="24" Foreground="#FFD8D8D8" HorizontalAlignment="Left" Canvas.Left="33" Canvas.Top="72" VerticalAlignment="Top"/>
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2" Canvas.Left="431" Canvas.Top="667" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Button Content="&lt;" Width="30" Margin="5"/>
-            <TextBlock Text="1 / 2" VerticalAlignment="Center" Foreground="White" Margin="5"/>
-            <Button Content="&gt;" Width="30" Margin="5"/>
+            <Button x:Name="btnLeft" Content="&lt;" Width="30" Margin="5"/>
+            <TextBlock x:Name="tbPage" Text="1 / 2" VerticalAlignment="Center" Foreground="White" Margin="5"/>
+            <Button x:Name="btnRight" Content="&gt;" Width="30" Margin="5"/>
         </StackPanel>
 
         <!-- Pagination -->
-        
+
     </Canvas>
 </UserControl>

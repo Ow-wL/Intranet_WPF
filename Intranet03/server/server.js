@@ -2,6 +2,7 @@
 // D:
 // cd CS_WS\Intranet03\Intranet03\server 
 // node server.js
+// insert into intranet.users(id, username, password, nickname) values ('3', '1', '1', '💦👻🐸얍')
 
 const mysql = require('mysql2');
 const express = require('express');
@@ -32,6 +33,21 @@ db.query(`CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(255) UNIQUE,
     password VARCHAR(255),
     nickname VARCHAR(255) UNIQUE
+)`, (err, results) => {
+    if (err) {
+        console.error(err.message);
+    }
+});
+
+// posts 테이블이 없으면 생성 (updated_at 필드 제거)
+db.query(`CREATE TABLE IF NOT EXISTS posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    author VARCHAR(255) NOT NULL, -- 또는 사용자 ID를 참조하는 외래 키
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    category VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    view_count INT DEFAULT 0
 )`, (err, results) => {
     if (err) {
         console.error(err.message);
@@ -98,6 +114,33 @@ app.post('/register', (req, res) => {
                 }
             });
         }
+    });
+});
+
+// 게시글 저장 엔드포인트
+app.post('/posts', (req, res) => {
+    const { author, title, content, category } = req.body;
+
+    if (!category || !title || !content) {
+        return res.status(400).json({ status: 'error', message: '제목, 내용, 카테고리를 모두 입력해주세요.' });
+    }
+
+    const query = 'INSERT INTO posts (author, title, content, category) VALUES (?, ?, ?, ?)';
+    db.query(query, [author, title, content, category], (err, results) => {
+        if (err) {
+            return res.status(500).json({ status: 'error', message: err.message });
+        }
+        res.status(201).json({ status: 'success', message: '게시글이 성공적으로 저장되었습니다.', postId: results.insertId });
+    });
+});
+
+app.get('/posts', (req, res) => {
+    const query = 'SELECT id, author, title, content, category, created_at AS Date, view_count AS Views FROM posts ORDER BY created_at DESC';
+    db.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ status: 'error', message: err.message });
+        }
+        res.status(200).json(results);
     });
 });
 

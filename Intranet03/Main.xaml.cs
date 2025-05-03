@@ -125,12 +125,13 @@ namespace Intranet03
         }
 
         private void btnPost_Click(object sender, RoutedEventArgs e)
-        {
+        {   
+
             // GridMain의 기존 콘텐츠를 제거
             ContentArea.Children.Clear();
 
             // Post UserControl을 동적으로 추가
-            var postControl = new Post(); // Post를 UserControl로 변경
+            var postControl = new Post(this.Nickname); // Post를 UserControl로 변경
             Grid.SetColumn(postControl, 1); // Grid의 두 번째 열에 배치
             ContentArea.Children.Add(postControl);
         }

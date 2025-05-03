@@ -27,19 +27,23 @@
 ----
 
 ## TODO List
-+ MainWindow - { "Main", "Post", "Solution", "Customer Service", "Personal Setting", ".Admin Menu" }
+### MainForm
++ ~~MainWindow - { "Main", "Post", "Solution", "Customer Service", "Personal Setting", ".Admin Menu" }~~
     + { "Main" } = ("Title", "Time", "Connected user", "Notice")
     + { "Post" } = ("Add Post", "Remove Post", "Edit Post", "Search Post")
     + { "Solution" } = ("GM's Answer", "YM's Tip", "OWL's Tip")
     + { "Customer Service" } = ("YM's Tip", "Easy Copy", "Templete")
     + { "Personal Setting" } = ("Change NickName", "Change Password", "Change Profile")
     + { "Admin Menu" } = ("Post Modify", "Permission Modify", "User Modify")
-
-### 25-05-02      
-+ DB 통신 시스템 SQLite -> MySQL로 변경
-+ 대시보드 창 실시간 접속 유저 표기
-+ 게시판 C# 코드 구현 글 작성 기능 글 보기 기능 추가
 + 최근에 올라온 게시물 대시보드에서 확인할 수 있는 기능 추가
++ 대시보드 창 실시간 접속 유저 표기
+
+### Post
++ ~~DB 통신 시스템 SQLite -> MySQL로 변경~~
++ ~~게시판 C# 코드 구현 글 작성 기능 글 목록 보기 기능 추가~~
++ 게시글 내용 확인 기능
++ 게시글 작성자에 한해 수정, 삭제 기능 (admin 포함)
++ Emoji 출력
 
 ## 설치한 NuGet
 
@@ -78,7 +82,16 @@ Emoji.wpf 사용을 위한 .NET 8.0 WPF로 변경 <br>
 <details>
 <summary>25-05-02 ( 4일차 ) </summary>
 SQLite -> MySQL 변환<br>
+게시판 디자인 <br>
+<br>
 
+</details>
+
+<details>
+<summary>25-05-03 ( 5일차 ) </summary>
+게시판 디자인 수정<br>
+게시판 글 작성 기능 구현 <br>
+게시판 글 목록 출력 <br>
 <br>
 
 </details>
