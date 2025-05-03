@@ -88,7 +88,8 @@
               CanUserResizeColumns="False"
               IsReadOnly="True" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="165" 
               HorizontalAlignment="Center" VerticalAlignment="Center" Width="906" Height="502"
-              FontFamily="Pretendard Light" FontSize="14">
+              FontFamily="Pretendard Light" FontSize="14"
+              MouseRightButtonUp="dgPostlist_MouseRightButtonUp">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="카테고리" Width="*" Binding="{Binding Category}"/>
                 <DataGridTemplateColumn Header="제목" Width="2*">
@@ -114,7 +115,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="조회" Width="0.5*" Binding="{Binding Views}"/>
-                <DataGridTextColumn Header="작성일" Width="*" Binding="{Binding Date, StringFormat='yyyy-MM-dd HH:mm:ss'}"/>
+                <DataGridTextColumn Header="작성일" Width="*" Binding="{Binding Date, StringFormat=yyyy-MM-dd HH:mm:ss}"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Text="게시판" FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA" HorizontalAlignment="Left" Canvas.Left="33" Canvas.Top="10" VerticalAlignment="Top"/>
