@@ -20,7 +20,7 @@ namespace Intranet03
     /// </summary>
     public partial class DashBoard : UserControl
     {
-        private  DispatcherTimer _timer;
+        private  DispatcherTimer? _timer;
         public DashBoard()
         {
             InitializeComponent();
@@ -42,7 +42,7 @@ namespace Intranet03
             lblTimer.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
         }
 
-        private void UpdateClock(object sender, EventArgs e)
+        private void UpdateClock(object? sender, EventArgs e)
         {
             // 현재 시간 및 날짜 업데이트
             lblTimer.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");

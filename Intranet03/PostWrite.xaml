@@ -1,0 +1,39 @@
+﻿<Window x:Class="Intranet03.PostWrite"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Intranet03"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="글 작성" Height="435" Width="615" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF09090B">
+
+    <Canvas Margin="10" Background="#FF09090B">
+        <!-- 글 제목 -->
+        <TextBox x:Name="tbTitle" Canvas.Left="10" Canvas.Top="10" Width="432" 
+                  mah:TextBoxHelper.Watermark="제목입력" FontFamily="Pretendard Semi-Bold" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <!-- 카테고리 선택 -->
+        <ComboBox x:Name="cbCategory" Canvas.Left="454" mah:TextBoxHelper.Watermark="카테고리 선택" 
+                  FontFamily="Pretendard Semi-Bold" FontSize="14" Canvas.Top="11" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" Width="116" 
+                  SelectionChanged="cbCategory_SelectionChanged">
+            <ComboBoxItem Content="전체"/>
+            <ComboBoxItem Content="공지사항"/>
+            <ComboBoxItem Content="문제 해결 방법"/>
+            <ComboBoxItem Content="RP 관련"/>
+            <ComboBoxItem Content="꿀팁"/>
+            <ComboBoxItem Content="좌표"/>
+        </ComboBox>
+
+        <!-- 글 내용 -->
+        <RichTextBox x:Name="rtbContent" Canvas.Left="10" Canvas.Top="55" Width="560" Height="266"
+                     mah:TextBoxHelper.Watermark="내용 입력" FontFamily="Pretendard Semi-Bold" FontSize="14" 
+                     VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <!-- 버튼 -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Canvas.Left="400" Canvas.Top="300"/>
+        <Button x:Name="btnCancel" Content="취소" Width="80" Click="btnCancel_Click" HorizontalAlignment="Center" Canvas.Left="400" Canvas.Top="337" VerticalAlignment="Top" FontSize="12" FontFamily="Pretendard Medium" FontWeight="Normal"/>
+        <Button x:Name="btnSubmit" Content="작성" Width="80" HorizontalAlignment="Center" Canvas.Left="490" Canvas.Top="337" VerticalAlignment="Top" FontFamily="Pretendard Medium" FontSize="12" FontWeight="Normal" Click="btnSubmit_Click"/>
+    </Canvas>
+</Window>

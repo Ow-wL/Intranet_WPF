@@ -118,10 +118,13 @@ namespace Intranet03
                 try
                 {
                     var loginResult = System.Text.Json.JsonSerializer.Deserialize<LoginResponse>(jsonResponse);
-                    if (loginResult?.status == "success")
+                    if (loginResult?.status == "success" && loginResult != null)
                     {
                         MessageBox.Show($"로그인 성공! 사용자 {loginResult.nickname}", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
-                        Main mainWindow = new Main(loginResult.userId, loginResult.username, loginResult.nickname);
+                        int userId = loginResult.userId ?? 0;
+                        string username_ = loginResult.username ?? "";
+                        string nickname = loginResult.nickname ?? "";
+                        Main mainWindow = new Main(userId, username_, nickname);
                         mainWindow.Show();
                         this.Close();
                     }
@@ -137,8 +140,8 @@ namespace Intranet03
             }
             else
             {
-                string errorMessage = response.ReasonPhrase;
-                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                string errorMessage = response?.ReasonPhrase ?? "Null Error";
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
                     try
@@ -174,16 +177,16 @@ namespace Intranet03
     }
     public class LoginResponse
     {
-        public required string status { get; set; }
-        public required string message { get; set; }
-        public required int userId { get; set; }
-        public required string username { get; set; }
-        public required string nickname { get; set; }
+        public string? status { get; set; }
+        public string? message { get; set; }
+        public int? userId { get; set; }
+        public string? username { get; set; }
+        public string? nickname { get; set; }
     }
 
     public class ErrorResponse
     {
-        public required string status { get; set; }
-        public required string message { get; set; }
+        public string? status { get; set; }
+        public string? message { get; set; }
     }
 }
