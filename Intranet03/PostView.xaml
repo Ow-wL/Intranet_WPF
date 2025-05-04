@@ -1,0 +1,59 @@
+﻿<Window x:Class="Intranet03.PostView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Intranet03"
+        xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+        mc:Ignorable="d"
+        Title="PostView" Height="500" Width="750" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Canvas Background="#FF09090B">
+        <!-- <TextBlock Text="RP 관련 내용" FontWeight="Bold" Foreground="#FFF8F3F3" 
+                   Canvas.Left="14" Canvas.Top="10" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   FontFamily="Pretendard ExtraLight" FontSize="16"/> -->
+        <TextBlock Text="{Binding Category}" Margin="0,0,0,10" Foreground="#FFF8F3F3"
+                   Canvas.Left="14" Canvas.Top="15" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   FontFamily="Pretendard ExtraLight" FontSize="16"/>
+
+        <!-- <emoji:TextBlock Text="테스트 글💎💎" FontWeight="Bold" Foreground="#FFF8F3F3"
+                   Canvas.Left="14" Canvas.Top="40"
+                   FontFamily="Pretendard Regular" FontSize="22"/> -->
+        <emoji:TextBlock Text="{Binding Title}" Margin="0,0,0,10" Foreground="#FFF8F3F3"
+                   Canvas.Left="14" Canvas.Top="40"
+                   FontFamily="Pretendard Regular" FontSize="22"/>
+
+        <!-- <emoji:TextBlock Text="⭐💎🌾테스트" FontWeight="Bold" Foreground="#FFF8F3F3" 
+                   Canvas.Left="14" Canvas.Top="76" 
+                   FontFamily="Pretendard ExtraLight" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Top"/> -->
+        <emoji:TextBlock Text="{Binding Author}" Margin="0,0,0,10" Foreground="#FFF8F3F3"
+                   Canvas.Left="14" Canvas.Top="76" 
+                   FontFamily="Pretendard ExtraLight" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+        <!-- <TextBlock Text="25-05-05 02:50:30" FontWeight="Bold" Foreground="#FFF8F3F3" 
+                   Canvas.Left="144" Canvas.Top="78" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   FontFamily="Pretendard ExtraLight" FontSize="16"/> -->
+        <TextBlock Text="{Binding Date, StringFormat='yyyy-MM-dd HH:mm:ss'}" Margin="0,0,0,10" Foreground="#FFF8F3F3"
+                   Canvas.Left="104" Canvas.Top="78" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   FontFamily="Pretendard ExtraLight" FontSize="16"/>
+
+        <!-- <emoji:TextBlock Text="👁️ 8" FontWeight="Bold" Foreground="#FFF8F3F3" 
+                   Canvas.Left="308" Canvas.Top="76"
+                   FontFamily="Pretendard ExtraLight" FontSize="16" Width="134" 
+                   HorizontalAlignment="Center" VerticalAlignment="Top"/> -->
+        <emoji:TextBlock Text="{Binding Views, StringFormat='👁️ {0}'}" 
+                   Canvas.Left="308" Canvas.Top="76" Foreground="#FFF8F3F3"
+                   FontFamily="Pretendard ExtraLight" FontSize="16" Width="134" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+        <Rectangle Height="1" Width="709" Fill="#FF27272A" HorizontalAlignment="Left" 
+                   Canvas.Left="10" Canvas.Top="109" VerticalAlignment="Center"/>
+
+        <!-- <emoji:TextBlock Text="💦✨⭐테스트 123" FontWeight="Bold" 
+                   Canvas.Left="14" Canvas.Top="120" Foreground="#FFF8F3F3" 
+                   FontFamily="Pretendard Light" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Top"/> -->
+        <TextBox x:Name="tbContents" Text="{Binding Content}" TextWrapping="Wrap"
+                   IsReadOnly="True" Cursor="IBeam"
+                   Canvas.Left="14" Canvas.Top="124" Foreground="#FFF8F3F3"
+                   FontFamily="Pretendard Light" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Background="#FF09090B" BorderBrush="#FF09090B" Width="705" Height="312"/>
+    </Canvas>
+</Window>

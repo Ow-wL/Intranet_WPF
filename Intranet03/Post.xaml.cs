@@ -98,9 +98,8 @@ namespace Intranet03
                         if (!string.IsNullOrEmpty(jsonString)) 
                         {
                             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                            List<PostItem>? posts = JsonSerializer.Deserialize<List<PostItem>>(jsonString, options); 
-                            return posts ?? new List<PostItem>(); 
-
+                            List<PostItem>? posts = JsonSerializer.Deserialize<List<PostItem>>(jsonString, options);
+                            return posts ?? new List<PostItem>();
                         }
                         else
                         {
@@ -165,10 +164,10 @@ namespace Intranet03
         // 글 삭제 구현 우클릭 메뉴
         private void dgPostlist_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            DataGrid dataGrid = sender as DataGrid;
+            DataGrid? dataGrid = sender as DataGrid;
             if (dataGrid == null) return;
 
-            DependencyObject source = e.OriginalSource as DependencyObject;
+            DependencyObject? source = e.OriginalSource as DependencyObject;
 
             while (source != null && !(source is Visual))
             {
@@ -177,10 +176,10 @@ namespace Intranet03
 
             if (source == null) return;
 
-            DataGridRow row = FindVisualParent<DataGridRow>(source);
+            DataGridRow? row = FindVisualParent<DataGridRow>(source);
             if (row == null) return;
 
-            PostItem postItem = row.Item as PostItem;
+            PostItem? postItem = row.Item as PostItem;
             if (postItem == null) return;
 
             ContextMenu contextMenu = new ContextMenu();
@@ -190,15 +189,14 @@ namespace Intranet03
             contextMenu.IsOpen = true;
         }
 
-        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        private static T? FindVisualParent<T>(DependencyObject child) where T : DependencyObject
         {
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            DependencyObject? parentObject = VisualTreeHelper.GetParent(child);
             if (parentObject == null) return null;
 
-            T parent = parentObject as T;
+            T? parent = parentObject as T;
             return parent ?? FindVisualParent<T>(parentObject);
         }
-
 
         private void ConfirmDelete(PostItem postItem)
         {
@@ -240,6 +238,17 @@ namespace Intranet03
             }
         }
 
+        // 더블 클릭 시 게시글 읽기
+        private void dgPostlist_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid? dataGrid = sender as DataGrid;
+            if (dataGrid == null) return;
 
+            PostItem? selectedPost = dataGrid.SelectedItem as PostItem;
+            if (selectedPost == null) return;
+
+            PostView postView = new PostView(selectedPost);
+            postView.Show();
+        }
     }
 }
