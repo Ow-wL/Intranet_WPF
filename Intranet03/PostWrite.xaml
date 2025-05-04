@@ -8,7 +8,7 @@
         xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
         Icon="D:\CS_WS\Intranet03\Intranet03\icon.ico"
         mc:Ignorable="d"
-        Title="글 작성" Height="435" Width="615" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF09090B">
+        Title="PostWrite" Height="435" Width="615" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF09090B">
 
     <Canvas Margin="10" Background="#FF09090B">
         <!-- 글 제목 -->

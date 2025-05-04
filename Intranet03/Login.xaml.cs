@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static Intranet03.Post;
 
 namespace Intranet03
 {
@@ -173,6 +174,19 @@ namespace Intranet03
             Register registerwindow = new Register();
             registerwindow.Show();
             this.Close();
+        }
+
+        // 포스트 읽기 이벤트
+        private void dgPostlist_MouseDoubleClick(object? sender, MouseButtonEventArgs e)
+        {
+            DataGrid dataGrid = sender as DataGrid;
+            if (dataGrid == null) return;
+
+            PostItem selectedPost = dataGrid.SelectedItem as PostItem;
+            if (selectedPost == null) return;
+
+            PostView postView = new PostView(selectedPost);
+            postView.Show();
         }
     }
     public class LoginResponse

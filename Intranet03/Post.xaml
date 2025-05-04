@@ -60,7 +60,8 @@
         <Button x:Name="btnPostup" Content="글쓰기" Width="80" FontFamily="Pretendard SemiBold" FontSize="16" Height="31" HorizontalAlignment="Center" Canvas.Left="867" Canvas.Top="78" VerticalAlignment="Center" Click="btnPostup_Click"/>
 
         <!-- Filters -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="119" VerticalAlignment="Center" Width="914">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" Grid.ColumnSpan="3" 
+                    Canvas.Left="33" Canvas.Top="119" VerticalAlignment="Center" Width="914">
             <DatePicker x:Name="dpDate" Width="233" Margin="0,0,10,0" VerticalAlignment="Center" SelectedDateChanged="DatePicker_SelectedDateChanged"/>
             <ComboBox x:Name="cbCategory" Width="140" Margin="0,0,10,0" 
                   mah:TextBoxHelper.Watermark="카테고리 선택" FontFamily="Pretendard Semi-Bold" Height="26" FontSize="14">
@@ -89,9 +90,10 @@
               IsReadOnly="True" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="165" 
               HorizontalAlignment="Center" VerticalAlignment="Center" Width="906" Height="502"
               FontFamily="Pretendard Light" FontSize="14"
-              MouseRightButtonUp="dgPostlist_MouseRightButtonUp">
+              MouseRightButtonUp="dgPostlist_MouseRightButtonUp"
+              MouseDoubleClick="dgPostlist_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="카테고리" Width="*" Binding="{Binding Category}"/>
+                <DataGridTextColumn Header="카테고리" Width="0.5*" Binding="{Binding Category}"/>
                 <DataGridTemplateColumn Header="제목" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -115,7 +117,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="조회" Width="0.5*" Binding="{Binding Views}"/>
-                <DataGridTextColumn Header="작성일" Width="*" Binding="{Binding Date, StringFormat=yyyy-MM-dd HH:mm:ss}"/>
+                <DataGridTextColumn Header="작성일" Width="1.5*" Binding="{Binding Date, StringFormat=yyyy-MM-dd HH:mm:ss}"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Text="게시판" FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA" HorizontalAlignment="Left" Canvas.Left="33" Canvas.Top="10" VerticalAlignment="Top"/>
