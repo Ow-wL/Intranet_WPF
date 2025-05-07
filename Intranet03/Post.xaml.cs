@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Emoji.Wpf;
 
 namespace Intranet03
@@ -16,12 +19,37 @@ namespace Intranet03
         private DateTime? firstSelectedDate = null;
         private DateTime? secondSelectedDate = null;
         public string Nickname { get; set; }
+        private DispatcherTimer? _refreshTimer;
 
         public Post(string nickname)
         {
             InitializeComponent();
             this.Nickname = nickname;
             this.Loaded += Post_Loaded;
+
+            _refreshTimer = new DispatcherTimer();
+            _refreshTimer.Interval = TimeSpan.FromSeconds(1);
+            _refreshTimer.Tick += RefreshTimer_Tick;
+            _refreshTimer.Start();
+
+            this.Unloaded += Post_Unloaded;
+        }
+
+        // 타이머 
+        private void RefreshTimer_Tick(object? sender, EventArgs e)
+        {
+            // 1초마다 게시글 목록 다시 로드
+            LoadPostList();
+        }
+
+        private void Post_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (_refreshTimer != null)
+            {
+                _refreshTimer.Stop();
+                _refreshTimer.Tick -= RefreshTimer_Tick;
+                _refreshTimer = null;
+            }
         }
 
         // 날짜 선택 이벤트 핸들러 수정
@@ -248,7 +276,7 @@ namespace Intranet03
         }
 
         // 더블 클릭 시 게시글 읽기
-        private void dgPostlist_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void dgPostlist_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGrid? dataGrid = sender as DataGrid;
             if (dataGrid == null) return;
@@ -257,8 +285,33 @@ namespace Intranet03
 
             string currentUserNickname = Nickname;
 
+            // 조회수 증가 API 호출
+            await IncrementViewCount(selectedPost.Id);
+
             PostView postView = new PostView(selectedPost, currentUserNickname);
             postView.Show();
+        }
+
+        // 게시글 조회수 증가
+        private async Task IncrementViewCount(int postId)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string url = $"http://localhost:3000/posts/{postId}/view";
+                    var content = new StringContent("", Encoding.UTF8, "application/json"); 
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine($"조회수 증가 실패 (게시글 ID: {postId}): {response.StatusCode}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"조회수 증가 요청 중 오류 발생 (게시글 ID: {postId}): {ex.Message}");
+            }
         }
 
 
