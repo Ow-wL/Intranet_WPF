@@ -141,7 +141,6 @@ app.post('/posts', async (req, res) => {
 });
 
 // 게시글 조회 엔드포인트
-// 게시글 조회 엔드포인트 수정 (검색 기능 추가)
 app.get('/posts', async (req, res) => {
     try {
         // 검색 파라미터 가져오기
@@ -209,6 +208,78 @@ app.get('/posts', async (req, res) => {
         res.status(200).json(postsWithKoreanTime);
     } catch (err) {
         return res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+// 게시글 수정 API
+app.put('/posts/:id', async (req, res) => {
+    const postId = req.params.id;
+    const { content, title, category } = req.body;
+
+    // 수정할 필드 검증
+    if ((!content && !title && !category) || !postId) {
+        return res.status(400).json({ status: 'error', message: '수정할 내용이 없거나 게시글 ID가 유효하지 않습니다.' });
+    }
+
+    try {
+        // 쿼리 생성을 위한 준비
+        let updateFields = [];
+        let updateValues = [];
+
+        if (content) {
+            updateFields.push('content = ?');
+            updateValues.push(content);
+        }
+
+        if (title) {
+            updateFields.push('title = ?');
+            updateValues.push(title);
+        }
+
+        if (category) {
+            updateFields.push('category = ?');
+            updateValues.push(category);
+        }
+
+        // 마지막에 게시글 ID 추가
+        updateValues.push(postId);
+
+        // UPDATE 쿼리 실행
+        const query = `UPDATE posts SET ${updateFields.join(', ')} WHERE id = ?`;
+        const [result] = await dbPool.execute(query, updateValues);
+
+        // 업데이트된 행이 없는 경우 (게시글이 존재하지 않았을 수 있음)
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ status: 'error', message: '수정하려는 게시글을 찾을 수 없습니다.' });
+        }
+
+        res.status(200).json({ status: 'success', message: '게시글이 성공적으로 수정되었습니다.' });
+    } catch (err) {
+        console.error('게시글 수정 오류:', err); // 서버 콘솔에 오류 로그 기록
+        return res.status(500).json({ status: 'error', message: '게시글 수정 중 오류가 발생했습니다.' });
+    }
+});
+
+// 게시글 삭제 API 
+app.delete('/posts/:id', async (req, res) => {
+    const postId = req.params.id;
+
+    if (!postId) {
+        return res.status(400).json({ status: 'error', message: '게시글 ID가 유효하지 않습니다.' });
+    }
+
+    try {
+        const [result] = await dbPool.execute('DELETE FROM posts WHERE id = ?', [postId]);
+
+        // 삭제된 행이 없는 경우 (게시글이 존재하지 않았을 수 있음)
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ status: 'error', message: '삭제하려는 게시글을 찾을 수 없습니다.' });
+        }
+
+        res.status(200).json({ status: 'success', message: '게시글이 성공적으로 삭제되었습니다.' });
+    } catch (err) {
+        console.error('게시글 삭제 오류:', err); // 서버 콘솔에 오류 로그 기록
+        return res.status(500).json({ status: 'error', message: '게시글 삭제 중 오류가 발생했습니다.' });
     }
 });
 

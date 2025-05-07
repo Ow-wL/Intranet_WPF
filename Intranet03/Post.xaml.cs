@@ -252,13 +252,15 @@ namespace Intranet03
         {
             DataGrid? dataGrid = sender as DataGrid;
             if (dataGrid == null) return;
-
             PostItem? selectedPost = dataGrid.SelectedItem as PostItem;
             if (selectedPost == null) return;
 
-            PostView postView = new PostView(selectedPost);
+            string currentUserNickname = Nickname;
+
+            PostView postView = new PostView(selectedPost, currentUserNickname);
             postView.Show();
         }
+
 
         // 글 검색하기
         private void btnSearch_Click(object sender, RoutedEventArgs e)

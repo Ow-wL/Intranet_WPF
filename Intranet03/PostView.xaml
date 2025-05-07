@@ -55,5 +55,21 @@
                    Canvas.Left="14" Canvas.Top="124" Foreground="#FFF8F3F3"
                    FontFamily="Pretendard Light" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" 
                    Background="#FF09090B" BorderBrush="#FF09090B" Width="705" Height="312"/>
+
+        <!-- 작성자 전용 수정/삭제 버튼 -->
+        <StackPanel x:Name="authorButtons" Orientation="Horizontal" Canvas.Left="550" Canvas.Top="70" Visibility="Collapsed">
+            <Button x:Name="btnEdit" Content="수정" Width="76" Height="30" Margin="0,0,10,0" Background="#FF3B3B3D" Foreground="#FFF8F3F3" 
+                    FontFamily="Pretendard Light" FontSize="14" Click="btnEdit_Click"/>
+            <Button x:Name="btnDelete" Content="삭제" Width="76" Height="30" Background="#FF3B3B3D" Foreground="#FFF8F3F3" 
+                    FontFamily="Pretendard Light" FontSize="14" Click="btnDelete_Click"/>
+        </StackPanel>
+
+        <!-- 수정 모드 시 표시될 컨트롤 -->
+        <StackPanel x:Name="editControls" Orientation="Horizontal" Canvas.Left="550" Canvas.Top="424" Visibility="Collapsed">
+            <Button x:Name="btnSave" Content="저장" Width="76" Height="30" Margin="0,0,10,0" Background="#FF3B3B3D" Foreground="#FFF8F3F3" 
+                    FontFamily="Pretendard Light" FontSize="14" Click="btnSave_Click"/>
+            <Button x:Name="btnCancel" Content="취소" Width="76" Height="30" Background="#FF3B3B3D" Foreground="#FFF8F3F3" 
+                    FontFamily="Pretendard Light" FontSize="14" Click="btnCancel_Click"/>
+        </StackPanel>
     </Canvas>
 </Window>

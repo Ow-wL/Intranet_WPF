@@ -35,7 +35,7 @@
 ### MainForm
 + ~~MainWindow - { "Main", "Post", "Solution", "Customer Service", "Personal Setting", ".Admin Menu" }~~
     + { "Main" } = (~~"Title", "Time"~~, "Connected user", "Notice")
-    + { "Post" } = (~~"Add Post"~~, ~~"Read Post"~~, ~~"Remove Post"~~, "Edit Post", "Search Post")
+    + { "Post" } = (~~"Add Post"~~, ~~"Read Post"~~, ~~"Remove Post"~~, ~~"Edit Post"~~, ~~"Search Post"~~)
     + { "Solution" } = ("GM's Answer", "YM's Tip", "OWL's Tip")
     + { "Customer Service" } = ("YM's Tip", "Easy Copy", "Templete")
     + { "Personal Setting" } = ("Change NickName", "Change Password", "Change Profile")
@@ -47,7 +47,7 @@
 + ~~DB 통신 시스템 SQLite -> MySQL로 변경~~
 + ~~게시판 C# 코드 구현 글 작성 기능 글 목록 보기 기능 추가~~
 + ~~게시글 내용 확인 기능~~
-+ 게시글 작성자에 한하여 수정, ~~삭제 기능~~ (admin 포함)
++ ~~게시글 작성자에 한하여 수정, 삭제 기능~~ (admin 포함)
 + ~~Emoji 출력~~
 
 ## 설치한 NuGet
@@ -108,6 +108,15 @@ SQLite -> MySQL 변환<br>
 게시글 내용 보기 기능 추가 <br>
 게시글 작성 시간 오류 수정 <br>
 데이터 베이스 연결 방식 개선 <br>
+<br>
+
+</details>
+
+<details>
+<summary>25-05-07 ( 7일차 ) </summary>
+게시글 검색 기능 추가 <br>
+서버 코드 개선 <br>
+게시글 수정 기능 완성 <br>
 <br>
 
 </details>
