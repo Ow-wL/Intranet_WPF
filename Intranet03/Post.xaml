@@ -77,7 +77,7 @@
             <TextBox x:Name="tbAuthor" Width="140" Margin="0,0,10,0" 
                  mah:TextBoxHelper.Watermark="작성자 입력" FontFamily="Pretendard Semi-Bold" VerticalAlignment="Center" FontSize="14"/>
             <Button x:Name="btnSearch" Content="조회" Width="80" Margin="53,0,8,0" FontFamily="Pretendard SemiBold" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Click="btnSearch_Click"/>
-            <Button x:Name="btnReset" Content="초기화" Width="80" FontFamily="Pretendard SemiBold" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Button x:Name="btnReset" Content="초기화" Width="80" FontFamily="Pretendard SemiBold" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Click="btnReset_Click"/>
         </StackPanel>
 
         <!-- 게시글 목록 -->
@@ -88,7 +88,7 @@
               CanUserReorderColumns="False" 
               CanUserResizeColumns="False"
               IsReadOnly="True" Grid.ColumnSpan="3" Canvas.Left="33" Canvas.Top="165" 
-              HorizontalAlignment="Center" VerticalAlignment="Center" Width="906" Height="502"
+              HorizontalAlignment="Center" VerticalAlignment="Top" Width="906" Height="523"
               FontFamily="Pretendard Light" FontSize="14"
               MouseRightButtonUp="dgPostlist_MouseRightButtonUp"
               MouseDoubleClick="dgPostlist_MouseDoubleClick">
@@ -123,13 +123,13 @@
         <TextBlock Text="게시판" FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA" HorizontalAlignment="Left" Canvas.Left="33" Canvas.Top="10" VerticalAlignment="Top"/>
         <TextBlock Text="게시판에 작성하여 정보를 공유하세요!" 
                    FontFamily="Pretendard Bold" FontSize="24" Foreground="#FFD8D8D8" HorizontalAlignment="Left" Canvas.Left="33" Canvas.Top="72" VerticalAlignment="Top"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2" Canvas.Left="431" Canvas.Top="667" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+        <!-- Pagination 
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2" Canvas.Left="431" Canvas.Top="672" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button x:Name="btnLeft" Content="&lt;" Width="30" Margin="5"/>
             <TextBlock x:Name="tbPage" Text="1 / 2" VerticalAlignment="Center" Foreground="White" Margin="5"/>
             <Button x:Name="btnRight" Content="&gt;" Width="30" Margin="5"/>
         </StackPanel>
-
-        <!-- Pagination -->
-
+        -->
     </Canvas>
 </UserControl>
