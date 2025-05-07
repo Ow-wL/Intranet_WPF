@@ -313,3 +313,28 @@ app.delete('/posts/:id', async (req, res) => {
         return res.status(500).json({ status: 'error', message: err.message });
     }
 });
+
+// 게시글 조회수 증가 API
+app.post('/posts/:id/view', async (req, res) => {
+    if (!dbPool) {
+        return res.status(500).json({ status: 'error', message: '데이터베이스 연결이 되지 않았습니다.' });
+    }
+
+    const postId = req.params.id;
+
+    try {
+        const [result] = await dbPool.execute(
+            'UPDATE posts SET view_count = view_count + 1 WHERE id = ?',
+            [postId]
+        );
+
+        if (result.affectedRows > 0) {
+            res.json({ status: 'success' });
+        } else {
+            res.status(404).json({ status: 'error', message: '게시글을 찾을 수 없습니다.' });
+        }
+    } catch (error) {
+        console.error('조회수 증가 오류:', error);
+        res.status(500).json({ status: 'error', message: '서버 오류 발생' });
+    }
+});
