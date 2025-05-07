@@ -1,3 +1,8 @@
+// D:
+// cd D:\CS_WS\Intranet03\Intranet03\server
+// node server.js
+// npm install express mysql2 moment-timezone body-parser cors
+
 const express = require('express');
 const mysql = require('mysql2/promise');
 const moment = require('moment-timezone');
@@ -14,12 +19,12 @@ const dbConfig = {
     database: 'intranet'
 };
 
-let dbPool; // Connection Pool을 사용
+let dbPool; 
 
-// 데이터베이스 연결 함수 (async 사용)
+// 데이터베이스 연결 함수 
 async function createDbPool() {
     try {
-        dbPool = mysql.createPool(dbConfig); // Pool 생성
+        dbPool = mysql.createPool(dbConfig); 
         console.log('Database connected');
     } catch (error) {
         console.error('Database connection failed:', error);
@@ -30,7 +35,7 @@ async function createDbPool() {
 // 서버 시작 시 데이터베이스 연결 및 테이블 생성 (async 즉시 실행 함수)
 (async () => {
     try {
-        await createDbPool(); // Pool 생성 대기
+        await createDbPool(); 
 
         // users 테이블이 없으면 생성
         await dbPool.execute(`CREATE TABLE IF NOT EXISTS users (
@@ -136,10 +141,58 @@ app.post('/posts', async (req, res) => {
 });
 
 // 게시글 조회 엔드포인트
+// 게시글 조회 엔드포인트 수정 (검색 기능 추가)
 app.get('/posts', async (req, res) => {
     try {
-        const [rows] = await dbPool.execute('SELECT id, author, title, content, category, created_at, view_count AS Views FROM posts ORDER BY created_at DESC');
-
+        // 검색 파라미터 가져오기
+        const { startDate, endDate, category, title, author } = req.query;
+        
+        // 기본 쿼리
+        let query = 'SELECT id, author, title, content, category, created_at, view_count AS Views FROM posts';
+        let conditions = [];
+        let params = [];
+        
+        // 날짜 검색 조건
+        if (startDate) {
+            if (endDate) {
+                // 날짜 범위 검색
+                conditions.push('DATE(created_at) BETWEEN ? AND ?');
+                params.push(startDate, endDate);
+            } else {
+                // 단일 날짜 검색
+                conditions.push('DATE(created_at) = ?');
+                params.push(startDate);
+            }
+        }
+        
+        // 카테고리 검색 조건
+        if (category && category !== '전체') {
+            conditions.push('category = ?');
+            params.push(category);
+        }
+        
+        // 제목 검색 조건
+        if (title) {
+            conditions.push('title LIKE ?');
+            params.push(`%${title}%`);
+        }
+        
+        // 작성자 검색 조건
+        if (author) {
+            conditions.push('author LIKE ?');
+            params.push(`%${author}%`);
+        }
+        
+        // 조건이 있으면 WHERE 절 추가
+        if (conditions.length > 0) {
+            query += ' WHERE ' + conditions.join(' AND ');
+        }
+        
+        // 정렬 추가
+        query += ' ORDER BY created_at DESC';
+        
+        const [rows] = await dbPool.execute(query, params);
+        
         const postsWithKoreanTime = rows.map(post => {
             const koreanCreatedAt = moment.utc(post.created_at).tz('Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss');
             return {
@@ -152,7 +205,7 @@ app.get('/posts', async (req, res) => {
                 Views: post.Views
             };
         });
-
+        
         res.status(200).json(postsWithKoreanTime);
     } catch (err) {
         return res.status(500).json({ status: 'error', message: err.message });
