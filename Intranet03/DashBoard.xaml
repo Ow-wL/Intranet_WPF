@@ -8,7 +8,7 @@
         Height="734.04" Width="978" Background="#FF09090B">
 
     <Grid x:Name="GridDashBoard">
-        <Label x:Name="lblMain" Content="SHIBA STAFF" HorizontalAlignment="Left" Margin="33,10,0,0" VerticalAlignment="Top" Height="56" Width="355" Background="{x:Null}" FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA"/>
-        <TextBlock x:Name="lblTimer" Grid.Column="1" HorizontalAlignment="Left" Height="47" Margin="33,71,0,0" TextWrapping="Wrap" Text="2025.04.30 22:09" VerticalAlignment="Top" Width="473" FontFamily="Pretendard Bold" FontSize="36" Foreground="#FFFAFAFA"/>
+        <Label x:Name="lblMain" Content="SHIBA STAFF" HorizontalAlignment="Left" Margin="29,10,0,0" VerticalAlignment="Top" Height="56" Width="355" Background="{x:Null}" FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA"/>
+        <TextBlock x:Name="lblTimer" HorizontalAlignment="Left" Height="47" Margin="33,66,0,0" TextWrapping="Wrap" Text="2025.04.30 22:09" VerticalAlignment="Top" Width="473" FontFamily="Pretendard Bold" FontSize="36" Foreground="#FFFAFAFA"/>
     </Grid>
 </UserControl>

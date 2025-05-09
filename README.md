@@ -53,7 +53,8 @@
 ## 설치한 NuGet
 
 + System.Net.Http.Json (DB 통신)
-+ MahApps.Metro (내용 미리보기)
++ MahApps.Metro (UI 디자인)
++ MahApps.Metro.IconPacks (UI 디자인)
 + ControlzEx (위 설치 시 같이 설치됨)
 + Emoji.Wpf (컬러 이모지)
 
@@ -117,6 +118,14 @@ SQLite -> MySQL 변환<br>
 게시글 검색 기능 추가 <br>
 서버 코드 개선 <br>
 게시글 수정 기능 완성 <br>
+게시글 실시간 조회 기능 완성 <br>
+<br>
+
+</details>
+
+<details>
+<summary>25-05-09 ( 8일차 ) </summary>
+개인 설정 탭 디자인 <br>
 <br>
 
 </details>

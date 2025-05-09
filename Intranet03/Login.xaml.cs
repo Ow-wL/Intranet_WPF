@@ -125,7 +125,8 @@ namespace Intranet03
                         int userId = loginResult.userId ?? 0;
                         string username_ = loginResult.username ?? "";
                         string nickname = loginResult.nickname ?? "";
-                        Main mainWindow = new Main(userId, username_, nickname);
+                        string password_ = loginResult.password ?? "";
+                        Main mainWindow = new Main(userId, username_, nickname, password_);
                         mainWindow.Show();
                         this.Close();
                     }
@@ -180,9 +181,10 @@ namespace Intranet03
     {
         public string? status { get; set; }
         public string? message { get; set; }
-        public int? userId { get; set; }
-        public string? username { get; set; }
-        public string? nickname { get; set; }
+        public int? userId { get; set; } // 사용자 ID
+        public string? username { get; set; } // 실제 ID
+        public string? nickname { get; set; } // 유저 별명
+        public string? password { get; set; } // 유저 별명
     }
 
     public class ErrorResponse
