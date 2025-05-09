@@ -62,7 +62,7 @@
             <Button x:Name="btnPost" Content="게시판" Margin="10" Click="btnPost_Click"/>
             <Button x:Name="btnAnswer" Content="해결방법" Margin="10"/>
             <Button x:Name="btnCS" Content="고객센터" Margin="10"/>
-            <Button x:Name="btnSetting" Content="설정" Margin="10"/>
+            <Button x:Name="btnSetting" Content="개인설정" Margin="10" Click="btnSetting_Click"/>
             <Button x:Name="btnAdmin" Content="관리메뉴" Margin="10"/>
 
             <emoji:TextBlock x:Name="lblNickname" HorizontalAlignment="Center" VerticalAlignment="Bottom" 

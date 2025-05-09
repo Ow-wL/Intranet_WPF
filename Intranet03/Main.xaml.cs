@@ -18,15 +18,17 @@ namespace Intranet03
         public int UserId { get; private set; }
         public string Username { get; private set; }
         public string Nickname { get; private set; }
+        public string Password { get; private set; }
         private Emoji.Wpf.TextBlock lblname { get; set; }
 
-        public Main(int userId, string username, string nickname)
+        public Main(int userId, string username, string nickname, string password)
         {
             InitializeComponent();
             OpenDashBoard(); // 기본 메인 폼 진입 시 대시보드창
             this.UserId = userId;
             this.Username = username;
             this.Nickname = nickname;
+            this.Password = password;
             string name = "사용자: " + Nickname;
             // XAML에서 정의한 lblNickname 컨트롤을 찾아서 속성에 할당합니다.
             lblname = (Emoji.Wpf.TextBlock)FindName("lblNickname");
@@ -136,5 +138,14 @@ namespace Intranet03
             ContentArea.Children.Add(postControl);
         }
 
+        private void btnSetting_Click(object sender, RoutedEventArgs e)
+        {
+            // GridMain의 기존 콘텐츠를 제거
+            ContentArea.Children.Clear();
+
+            var usControl = new UserSetting(this.Username, this.Nickname, this.Password);
+            Grid.SetColumn(usControl, 1);
+            ContentArea.Children.Add(usControl);
+        }
     }
 }

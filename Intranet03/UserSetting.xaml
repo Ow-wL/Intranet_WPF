@@ -1,0 +1,324 @@
+﻿<UserControl
+    x:Class="Intranet03.UserSetting"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Intranet03"
+    xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    mc:Ignorable="d"
+    Height="734.04" Width="978">
+
+    <UserControl.Resources>
+        <!-- 스타일 정의 -->
+        <Style x:Key="SettingHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Pretendard Bold"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="#FFFAFAFA"/>
+            <Setter Property="Margin" Value="0,5,0,10"/>
+        </Style>
+
+        <Style x:Key="SettingItemStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Pretendard Medium"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="#FFD8D8D8"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF4B4B4B"/>
+            <Setter Property="Foreground" Value="#FFFAFAFA"/>
+            <Setter Property="FontFamily" Value="Pretendard Medium"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF5A5A5A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+            <Setter Property="Background" Value="#FF772C2C"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFD45858"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+            <Setter Property="Background" Value="#FF2C4F6F"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF375F84"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ToggleSwitch 대체 스타일 -->
+        <Style x:Key="CustomToggleSwitchStyle" TargetType="{x:Type CheckBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}" 
+                                       Grid.Row="0" FontFamily="Pretendard Medium" FontSize="14" 
+                                       Foreground="#FFD8D8D8" Margin="0,0,0,5"/>
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border x:Name="SwitchTrack" Grid.Column="0" Width="40" Height="20" 
+                                        Background="#FF333333" CornerRadius="10"/>
+
+                                <Border x:Name="SwitchThumb" Grid.Column="0" Width="18" Height="18" 
+                                        Background="#FFFAFAFA" CornerRadius="9" 
+                                        HorizontalAlignment="Left" Margin="1,0,0,0" 
+                                        VerticalAlignment="Center"/>
+
+                                <TextBlock x:Name="StateText" Grid.Column="1" Margin="10,0,0,0" 
+                                           Text="사용 안 함" FontFamily="Pretendard Medium" 
+                                           FontSize="14" Foreground="#FFD8D8D8" 
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SwitchTrack" Property="Background" Value="#FF4B8BCA"/>
+                                <Setter TargetName="SwitchThumb" Property="HorizontalAlignment" Value="Right"/>
+                                <Setter TargetName="SwitchThumb" Property="Margin" Value="0,0,1,0"/>
+                                <Setter TargetName="StateText" Property="Text" Value="사용"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#FF09090B">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 헤더 영역 -->
+        <StackPanel Grid.Row="0" Margin="30,20,30,10">
+            <Label x:Name="lblTitle" Content="개인 설정" 
+                   FontFamily="Pretendard ExtraBold" FontSize="48" Foreground="#FFFAFAFA"/>
+            <TextBlock Text="개인 설정을 자유롭게 변경하세요!" 
+                   FontFamily="Pretendard Bold" FontSize="24" Foreground="#FFD8D8D8"
+                   Margin="5,0,0,20"/>
+        </StackPanel>
+
+        <!-- 설정 콘텐츠 -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,20">
+            <StackPanel Margin="35,10,35,20">
+
+                <!-- 계정 설정 섹션 -->
+                <Border Background="#FF181818" CornerRadius="12" Padding="20" Margin="0,0,0,20">
+                    <StackPanel>
+                        <Grid>
+                            <TextBlock Text="계정 설정" Style="{StaticResource SettingHeaderStyle}"/>
+                            <emoji:TextBlock Text="👤" FontSize="24" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Separator Background="#FF2D2D2D" Margin="0,5,0,15"/>
+
+                        <!-- 별명 변경 -->
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="별명" Style="{StaticResource SettingItemStyle}" Grid.Column="0" Width="100"/>
+                            <TextBox x:Name="txtNickname" Grid.Column="1" Margin="10,0,54,0" Height="36" 
+                                     FontFamily="Pretendard Medium" FontSize="14"
+                                     Background="#FF2D2D2D" Foreground="#FFFAFAFA" 
+                                     BorderThickness="0" Padding="10,8" VerticalContentAlignment="Center">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <Button Content="변경" Grid.Column="1" Style="{StaticResource PrimaryButtonStyle}" Grid.ColumnSpan="2" Margin="705,0,0,0"/>
+                        </Grid>
+
+                        <!-- 비밀번호 변경 -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="비밀번호" Style="{StaticResource SettingItemStyle}" Grid.Column="0" Width="100"/>
+                            <Button Content="비밀번호 변경" Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left"
+                                    Style="{StaticResource ActionButtonStyle}"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- 테마 설정 섹션 -->
+                <Border Background="#FF181818" CornerRadius="12" Padding="20" Margin="0,0,0,20">
+                    <StackPanel>
+                        <Grid>
+                            <TextBlock Text="테마 설정" Style="{StaticResource SettingHeaderStyle}"/>
+                            <emoji:TextBlock Text="🎨" FontSize="24" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Separator Background="#FF2D2D2D" Margin="0,5,0,15"/>
+
+                        <!-- 테마 선택 -->
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="테마" Style="{StaticResource SettingItemStyle}" Grid.Column="0" Width="100"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0">
+                                <RadioButton Content="다크 모드" GroupName="Theme" IsChecked="True"
+                                             FontFamily="Pretendard Medium" FontSize="14" Foreground="#FFD8D8D8"
+                                             Margin="0,0,15,0"/>
+                                <RadioButton Content="라이트 모드" GroupName="Theme"
+                                             FontFamily="Pretendard Medium" FontSize="14" Foreground="#FFD8D8D8"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- 색상 테마 -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="색상 테마" Style="{StaticResource SettingItemStyle}" Grid.Column="0" Width="100"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0">
+                                <Border Width="30" Height="30" Background="#FF4B8BCA" CornerRadius="15" Margin="0,0,10,0">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="5" Opacity="0.3" Color="#FF4B8BCA"/>
+                                    </Border.Effect>
+                                </Border>
+                                <Border Width="30" Height="30" Background="#FF6A41A1" CornerRadius="15" Margin="0,0,10,0"/>
+                                <Border Width="30" Height="30" Background="#FF41A15E" CornerRadius="15" Margin="0,0,10,0"/>
+                                <Border Width="30" Height="30"  Background="#FF525252" CornerRadius="15" Margin="0,0,0,0">
+                                    <Button Content="+" FontSize="18" FontWeight="Bold" Background="{x:Null}"
+                                            BorderThickness="0" Click="OpenColorPalette_Click" Foreground="White" Padding="0,-5,0,0" FontFamily="Pretendard Medium"/>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- 일반 설정 섹션 -->
+                <Border Background="#FF181818" CornerRadius="12" Padding="20" Margin="0,0,0,20">
+                    <StackPanel>
+                        <Grid>
+                            <TextBlock Text="일반 설정" Style="{StaticResource SettingHeaderStyle}"/>
+                            <emoji:TextBlock Text="⚙️" FontSize="24" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Separator Background="#FF2D2D2D" Margin="0,5,0,15"/>
+
+                        <!-- 창 위치 기억하기 -->
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="창 위치" Style="{StaticResource SettingItemStyle}" Grid.Column="0" Width="150"/>
+                            <CheckBox x:Name="toggleWindowPos" Grid.Column="1" Margin="10,0"
+                                     Style="{StaticResource CustomToggleSwitchStyle}"
+                                     Tag="창 위치 기억하기"/>
+                        </Grid>
+
+                        <!-- 알림 설정 -->
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="알림" Style="{StaticResource SettingItemStyle}" Grid.Column="0" Width="150"/>
+                            <CheckBox x:Name="toggleNotification" Grid.Column="1" Margin="10,0"
+                                     Style="{StaticResource CustomToggleSwitchStyle}"
+                                     Tag="알림 받기"/>
+                        </Grid>
+
+                        <!-- 알림 소리 -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="알림 소리" Style="{StaticResource SettingItemStyle}" Grid.Column="0" Width="150"/>
+                            <CheckBox x:Name="toggleNotificationSound" Grid.Column="1" Margin="10,0"
+                                     Style="{StaticResource CustomToggleSwitchStyle}"
+                                     Tag="알림 소리 사용하기"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- 하단 버튼 영역 -->
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" HorizontalAlignment="Left"
+                            Style="{StaticResource DangerButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial Kind="Logout" Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="로그아웃"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Grid.Column="1" Margin="0,0,10,0"
+                            Style="{StaticResource ActionButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial Kind="Restart" Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="설정 초기화"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Grid.Column="2"
+                            Style="{StaticResource PrimaryButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconMaterial Kind="ContentSave" Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="저장"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

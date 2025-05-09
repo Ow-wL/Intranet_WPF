@@ -20,6 +20,7 @@
   <ItemGroup>
     <PackageReference Include="Emoji.Wpf" Version="0.3.4" />
     <PackageReference Include="MahApps.Metro" Version="3.0.0-rc0516" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="5.1.0" />
     <PackageReference Include="System.Net.Http.Json" Version="9.0.4" />
   </ItemGroup>
 
