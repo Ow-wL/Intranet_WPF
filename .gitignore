@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# 로컬 DB 파일과 환경변수 (계정 정보가 들어가므로 커밋하지 않는다)
+USER.DB
+.env

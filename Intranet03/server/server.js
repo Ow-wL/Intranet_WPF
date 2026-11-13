@@ -1,6 +1,6 @@
 // D:
 // cd D:\CS_WS\Intranet03\Intranet03\server
-// node server.js
+// node --env-file=.env server.js   (.env 는 .env.example 을 복사해 만든다)
 // npm install express mysql2 moment-timezone body-parser cors
 
 const express = require('express');
@@ -11,12 +11,17 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-// 데이터베이스 연결 설정
+// 데이터베이스 연결 설정 (값은 환경변수로 받는다. .env.example 참고)
+if (!process.env.DB_PASSWORD) {
+    console.error('DB_PASSWORD 환경변수가 없습니다. .env.example 을 복사해 .env 를 만든 뒤 node --env-file=.env server.js 로 실행하세요.');
+    process.exit(1);
+}
+
 const dbConfig = {
-    host: 'localhost',
-    user: 'owl',
-    password: 'CHANGE_ME',
-    database: 'intranet'
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'owl',
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || 'intranet'
 };
 
 let dbPool; 
